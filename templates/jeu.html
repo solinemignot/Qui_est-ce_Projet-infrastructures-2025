@@ -6,10 +6,47 @@
         body { text-align: center ;
                 margin-top: 50px;
                 }
+        .grille {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr); /* exactly 5 columns */
+                grid-template-rows: repeat(5, auto);   /* 4 rows, height adjusts automatically */
+                gap: 15px;                             /* space between cards */
+                justify-items: center;                 /* center cards horizontally */
+                margin: 40px auto;                     /* center grid in page */
+                max-width: 100%;                       /* grid can shrink/grow with window */
+                padding: 0 10px;
+                box-sizing: border-box;
+            }
+
+        .carte p {
+                    font-size: 14px;      /* smaller font */
+                    margin: 5px 0 0 0;    /* reduce space above and below */
+                    white-space: nowrap;   /* keep names in one line */
+                    overflow: hidden;      /* hide overflow if name too long */
+                    text-overflow: ellipsis; /* add "..." for long names */
+                }
     </style>
 </head>
 <body>
    <h1>Qui est-ce? Harry Potter</h1>
+   <div class="grille">
+  {% for nom, image in personnages.items() %}
+    <div class="carte">
+      <img src="{{ image }}" alt="{{ nom }}">
+      <p>{{ nom }}</p>
+    </div>
+  {% endfor %}
+    </div>
+
+
+    <h2>Posez une question :</h2>
+<form method="POST" action="/jeu">
+    <input type="text" name="question" placeholder="Ex: A-t-il des lunettes ?" required>
+    <button type="submit">Poser la question</button>
+</form>
+        {% if reponse %}
+            <p><strong>Réponse :</strong> {{ reponse }}</p>
+        {% endif %}
    
 </body>
 </html>
