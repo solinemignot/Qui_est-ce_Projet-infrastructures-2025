@@ -6,6 +6,7 @@
         body { text-align: center ;
                 margin-top: 50px;
                 }
+
         .grille {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr); /* exactly 5 columns */
@@ -17,6 +18,14 @@
                 padding: 0 10px;
                 box-sizing: border-box;
             }
+
+        .grille img {
+            width: 180px;           
+            height: 240px;          
+            object-fit: cover;      
+            object-position: top;   
+            border-radius: 8px;     
+        }
 
         .carte p {
                     font-size: 14px;      /* smaller font */
