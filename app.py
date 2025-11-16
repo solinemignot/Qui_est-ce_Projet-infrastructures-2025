@@ -52,7 +52,12 @@ def filtrer_personnages(personnages_restants, cle, valeur, reponse_oui):
 
 def jeu():
 
-    # Si c'est la première visite, on initialise
+    # Si on clique sur "Commencer la partie", on réinitialise la session
+    if request.method == 'POST' and request.form.get("reset"):
+        session.pop("secret", None)
+        session.pop("restants", None)
+
+    # Si c'est la première visite ou après reset, on initialise
     if "secret" not in session:
         session["secret"] = random.choice(list(caracteristiques_personnages.keys()))
         session["restants"] = list(caracteristiques_personnages.keys())
