@@ -13,7 +13,7 @@ personnages = {
     "Luna Lovegood": "/static/images/Luna_Lovegood.jpg",
     "Minerva McGonagall": "/static/images/Minerva_McGonagall.jpg",
     "Neville Londubat": "/static/images/Neville_londubat.jpg",
-    "Peter Pettigrew": "/static/images/Peter_Pettigrew.jpg",
+    "Peter Pettigrow": "/static/images/Peter_Pettigrew.jpg",
     "Remus Lupin": "/static/images/Remus_Lupin.jpg",
     "Ron Weasley": "/static/images/Ron_Weasley.jpg",
     "Rubeus Hagrid": "/static/images/Rubeus_Hagrid.jpg",

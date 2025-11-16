@@ -17,6 +17,7 @@ dans le terminal et ça à l'air de faire l'affaire.
 \\ update leena 
 j'ai ajouté les images en local, je pense qu'on peut debattre des personnes (pa assez de filles ou whatever, j'en ai ajouter d'autres dans le dossier qui sont pas dans la grille (ou sinon on peut juste étendre la grille pour le rendre plus dur))
 
+liste déroulante de questions, mettre en grisé les perso qui ne répondent pas aux caractères et choisir en mode random un perso au début
 
 
 
