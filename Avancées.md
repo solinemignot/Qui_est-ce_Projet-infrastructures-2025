@@ -18,7 +18,18 @@ dans le terminal et ça à l'air de faire l'affaire.
 j'ai ajouté les images en local, je pense qu'on peut debattre des personnes (pa assez de filles ou whatever, j'en ai ajouter d'autres dans le dossier qui sont pas dans la grille (ou sinon on peut juste étendre la grille pour le rendre plus dur))
 
 liste déroulante de questions, mettre en grisé les perso qui ne répondent pas aux caractères et choisir en mode random un perso au début
+⦁	J'ai ajouté 4 filles pour la parité et ça nous fait 24 persos comme le vrai qui est-ce, j'ai ajouté leurs caractéristiques sur le dictionnaire caractéristique
+⦁	j'ai mis une liste déroulant pour les questions plutôt que une entrée manuelle sinon c'est trop dur à gérer 
+⦁	j'ai fait une fonction qui pour chaque question séléctionnée va griser les persos qui ne respectent pas la condition qui est a priori respectée par le perso choisi de manière random
+⦁	pour ajouter/enlever des questions : faut modifier les fichiers questions_map et dans jeu.html
 
+Améliorations possibles:
+⦁	J'ai pas gérer l'initialisation: sur l'entrée on peut faire reprendre la partie ou en commencer une nouvelle 
+⦁	gérer la fin de jeu, quand il reste plus que un perso j'ai pas du tout gérer la fin de jeu 
+⦁	peut être afficher à l'écran qqch (au moins la réponse oui/non à chaque question)
+⦁	bouton retour à l'accueil ou proposer une nouvelle partie 
+⦁	extension: en faire un jeu dans les deux sens: laisser la possibilité au joueur de choisir un perso et on choisi des question np.random pour que "l'IA" derrière suppr des perso en même temps et comme ça si l'ia trouve le perso avant le joueur , il a perdu
+⦁	améliorer en général l'esthétique
 
 
 
