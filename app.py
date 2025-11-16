@@ -53,6 +53,7 @@ def filtrer_personnages(personnages_restants, cle, valeur, reponse_oui):
 def jeu():
 
     # Si on clique sur "Commencer la partie", on réinitialise la session
+    #Ca ne marche pas pour réinitialiser la session
     if request.method == 'POST' and request.form.get("reset"):
         session.pop("secret", None)
         session.pop("restants", None)
