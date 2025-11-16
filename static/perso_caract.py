@@ -41,7 +41,7 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Weasley"
     },
-    "Draco Malfoy": {
+    "Drago Malefoy": {
         "maison": "Serpentard",
         "genre": "H",
         "cheveux": "Blonds",
@@ -278,5 +278,62 @@ caracteristiques_personnages = {
         "trait_distinctif": "Animagus (rat), traître",
         "moralite": "Méchant",
         "famille": "N/A"
+    },
+    "Nymphadora Tonks": {
+        "maison": "Poufsouffle",
+        "genre": "F",
+        "cheveux": "Variables (Métamorphomage)",
+        "lunettes": False,
+        "baguette_particuliere": False,
+        "animal": "Aucun",
+        "professeur": False,
+        "sang": "Mêlé",
+        "role": "Auror, Ordre du Phénix",
+        "trait_distinctif": "Métamorphomage",
+        "moralite": "Gentil",
+        "famille": "Tonks / Black (par alliance)"
+    },
+        "Padma Patil": {
+        "maison": "Gryffondor",   # version FILM, "Serdaigle" dans les livres
+        "genre": "F",
+        "cheveux": "Noirs",
+        "lunettes": False,
+        "baguette_particuliere": False,
+        "animal": "Aucun",
+        "professeur": False,
+        "sang": "Pur",
+        "role": "Élève",
+        "trait_distinctif": "Sœur jumelle de Parvati Patil",
+        "moralite": "Gentil",
+        "famille": "Patil"
+    },
+        "Pansy Parkinson": {
+        "maison": "Serpentard",
+        "genre": "F",
+        "cheveux": "Bruns",
+        "lunettes": False,
+        "baguette_particuliere": False,
+        "animal": "Aucun",
+        "professeur": False,
+        "sang": "Pur",
+        "role": "Élève",
+        "trait_distinctif": "Proche de Draco Malfoy",
+        "moralite": "Méchant",
+        "famille": "Parkinson"
+    },
+        "Fleur Delacour": {
+        "maison": "Beauxbâtons",
+        "genre": "F",
+        "cheveux": "Blonds",
+        "lunettes": False,
+        "baguette_particuliere": True,   # contient un cheveu de Vélane
+        "animal": "Aucun",
+        "professeur": False,
+        "sang": "Part-Vélane",
+        "role": "Champione de Beauxbâtons, future épouse de Bill Weasley",
+        "trait_distinctif": "Part-Vélane (charme exceptionnel)",
+        "moralite": "Gentil",
+        "famille": "Delacour"
     }
+
 }

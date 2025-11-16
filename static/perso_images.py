@@ -18,7 +18,11 @@ personnages = {
     "Ron Weasley": "/static/images/Ron_Weasley.jpg",
     "Rubeus Hagrid": "/static/images/Rubeus_Hagrid.jpg",
     "Severus Rogue": "/static/images/severus_rogue.jpg",
-    "Sirius Black": "/static/images/Sirius_Black.jpg"
+    "Sirius Black": "/static/images/Sirius_Black.jpg",
+    "Nymphadora Tonks": "/static/images/Nymphadora_Tonks.jpg",
+    "Padma Patil": "/static/images/padma_patil.jpg",
+    "Pansy Parkinson": "/static/images/pansy_parkinson.jpg",
+    "Fleur Delacour": "/static/images/fleur_delacour.jpg"
 }
 
 
