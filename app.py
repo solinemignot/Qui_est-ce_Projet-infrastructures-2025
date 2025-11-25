@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for
 import random
 
 # Import des photos
@@ -70,23 +70,34 @@ def jeu():
 
     # Quand une question est posée
     if request.method == 'POST':
-        selected = request.form.get("question")
 
-        if selected in questions_map:
-            cle, valeur = questions_map[selected]
-            secret_perso = caracteristiques_personnages[secret]
+        guess = request.form.get("guess")
+        if guess :
+            if guess == secret :
+                message = f"Bravo ! Tu as deviné le personnage {secret}"
+            else :
+                message = f"Raté, ce n'était pas {guess}"
+            
+            return render_template("fin.html", message = message)
 
-            # Déterminer si la réponse est OUI ou NON
-            if valeur == "!=":
-                reponse_oui = secret_perso["animal"] != "Aucun"
-            else:
-                reponse_oui = secret_perso[cle] == valeur
+        else :
+            selected = request.form.get("question")
 
-            reponse = "Oui" if reponse_oui else "Non"
+            if selected in questions_map:
+                cle, valeur = questions_map[selected]
+                secret_perso = caracteristiques_personnages[secret]
 
-            # On filtre les personnages restants
-            restants = filtrer_personnages(restants, cle, valeur, reponse_oui)
-            session["restants"] = restants
+                # Déterminer si la réponse est OUI ou NON
+                if valeur == "!=":
+                    reponse_oui = secret_perso["animal"] != "Aucun"
+                else:
+                    reponse_oui = secret_perso[cle] == valeur
+
+                reponse = "Oui" if reponse_oui else "Non"
+
+                # On filtre les personnages restants
+                restants = filtrer_personnages(restants, cle, valeur, reponse_oui)
+                session["restants"] = restants
 
     # Préparer les images filtrées
     personnages_affiches = {nom: personnages[nom] for nom in restants}
@@ -104,10 +115,14 @@ def jeu():
 @app.route('/reset')
 def reset():
     session.clear()
-    return "Partie réinitialisée ! <a href='/jeu'>Rejouer</a>"
+    return redirect('/jeu')
+
+
 
 
 
 # Lancer l'application
 if __name__ == '__main__':
     app.run(debug=True)
+
+
