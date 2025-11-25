@@ -76,9 +76,21 @@ def jeu():
             if guess == secret :
                 message = f"Bravo ! Tu as deviné le personnage {secret}"
             else :
-                message = f"Raté, ce n'était pas {guess}"
+                message = f"Raté, ce n'était pas {guess}. Le personnage à deviner était {secret}"
             
-            return render_template("fin.html", message = message)
+            guessed_image = personnages[guess]         # image du choix
+            secret_image = personnages[secret]         # image correcte
+            resultat = guess == secret
+
+            return render_template(
+                "fin.html",
+                message=message,
+                resultat = resultat,
+                guess=guess,
+                secret=secret,
+                guessed_image=guessed_image,
+                secret_image=secret_image
+            )
 
         else :
             selected = request.form.get("question")

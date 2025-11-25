@@ -7,6 +7,34 @@
                 margin-top: 50px;
                 }
 
+        .result-images {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+        }
+
+        .image-block img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 5px solid transparent;
+        }
+
+        .correct img {
+            border-color: green;
+        }
+
+        .incorrect img {
+            border-color: red;
+        }
+
+        .image-block {
+            text-align: center;
+            font-size: 18px;
+        }
+
         .restart-button {
             background-color: #8B0000; 
             color: white;
@@ -28,6 +56,29 @@
 <body>
 
     <h1>{{ message }}</h1>
+    {%if not resultat%}
+        <div class="result-images">
+    
+            <div class="image-block incorrect">
+                <h3>Tu as choisi :</h3>
+                <img src="{{ guessed_image }}" alt="{{ guess }}">
+                <p>{{ guess }}</p>
+            </div>
+    
+            <div class="image-block correct">
+                <h3>Le bon personnage :</h3>
+                <img src="{{ secret_image }}" alt="{{ secret }}">
+                <p>{{ secret }}</p>
+            </div>
+    
+        </div>
+    {%else%}
+        <div class = "image-block correct">
+            <h3>Le bon personnage :</h3>
+            <img src="{{ secret_image }}" alt="{{ secret }}">
+            <p>{{ secret }}</p>
+        </div>
+    {%endif%}
 
     <button class="restart-button" onclick="window.location.href='/reset'">
         Nouvelle partie

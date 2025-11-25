@@ -31,7 +31,7 @@ Améliorations possibles:
 ⦁	extension: en faire un jeu dans les deux sens: laisser la possibilité au joueur de choisir un perso et on choisi des question np.random pour que "l'IA" derrière suppr des perso en même temps et comme ça si l'ia trouve le perso avant le joueur , il a perdu
 ⦁	améliorer en général l'esthétique
 
+25/11 : avancées Tea
 
-
-
-
+J'ai géré la fin de partie : j'ai ajouté une possibilité de deviner le personnage directement parmis les personnages possibles restants. Une fois la partie terminée, possibilité de rejouer une partie.
+J'ai aussi ajouté un bouton retour à l'accueil
