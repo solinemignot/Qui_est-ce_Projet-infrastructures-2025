@@ -129,6 +129,24 @@ def reset():
     session.clear()
     return redirect('/jeu')
 
+@app.route('/choisir', methods = ['GET', 'POST'])
+def choisir():
+    choix = None
+
+    if request.method == 'POST':
+        choix = request.form.get("mon_perso")
+        if choix in personnages :
+            session["secret_joueur"] = choix #rediriger vers l'endroit où l'IA devine la carte
+            return redirect('/jeu')
+        else :
+            choix = None
+    
+    return render_template("choisir.html",
+                           personnages=personnages,
+                           choix=session.get("secret_joueur"))
+
+
+
 
 
 
