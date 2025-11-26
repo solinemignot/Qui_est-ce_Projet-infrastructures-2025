@@ -35,3 +35,6 @@ Améliorations possibles:
 
 J'ai géré la fin de partie : j'ai ajouté une possibilité de deviner le personnage directement parmis les personnages possibles restants. Une fois la partie terminée, possibilité de rejouer une partie.
 J'ai aussi ajouté un bouton retour à l'accueil
+
+J'ai également ajouté l'étape avant le commencement du jeu où l'utilisateur choisi un personnage. 
+Ce personnage est stocké dans session["secret_joueur"]. Pour l'instant on en fait rien, ce sera à utiliser lorsqu'on implémente l'IA qui doit deviner le perso du joueur
