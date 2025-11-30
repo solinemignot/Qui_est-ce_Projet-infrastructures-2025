@@ -61,6 +61,29 @@
         .menu-button:hover {
             background-color: #A52A2A;
         }
+
+        .simple-answer {
+            margin-top: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 12px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .simple-answer.yes {
+            background-color: #2ecc71;   /* vert */
+            color: white;
+        }
+
+        .simple-answer.no {
+            background-color: #e74c3c;   /* rouge */
+            color: white;
+        }
+
     </style>
 
 </head>
@@ -73,6 +96,7 @@
    <h1>Qui est-ce? Harry Potter</h1>
     <div class="grille">
     {% for nom, image in personnages.items() %}
+        <!-- griser la carte si le perso n'est pas dans "restants"-->
         <div class="carte {% if restants is defined and nom not in restants %}eliminee{% endif %}">
         <img src="{{ image }}" alt="{{ nom }}">
         <p>{{ nom }}</p>
@@ -97,77 +121,41 @@
 
 
 <h2>Posez une question :</h2>
+
 <form method="POST" action="/jeu">
     <select name="question" required style="width: 200px;">
         <option value="">-- Choisir une question --</option>
 
-        <!-- Maison -->
-        <option value="maison_gryffondor">Est-il de Gryffondor ?</option>
-        <option value="maison_serpentard">Est-il de Serpentard ?</option>
-        <option value="maison_poufsouffle">Est-il de Poufsouffle ?</option>
-        <option value="maison_serdaigle">Est-il de Serdaigle ?</option>
-
-        <!-- Genre -->
-        <option value="genre_h">Est-ce un homme ?</option>
-        <option value="genre_f">Est-ce une femme ?</option>
-
-        <!-- Cheveux -->
-        <option value="cheveux_noirs">A-t-il les cheveux noirs ?</option>
-        <option value="cheveux_roux">A-t-il les cheveux roux ?</option>
-        <option value="cheveux_blonds">A-t-il les cheveux blonds ?</option>
-        <option value="cheveux_bruns">A-t-il les cheveux bruns ?</option>
-        <option value="cheveux_roses">A-t-il les cheveux roses ?</option>
-
-        <!-- Lunettes -->
-        <option value="lunettes">Porte-t-il des lunettes ?</option>
-
-        <!-- Baguette -->
-        <option value="baguette_particuliere">A-t-il une baguette particulière ?</option>
-
-        <!-- Animal -->
-        <option value="a_animal">A-t-il un animal ?</option>
-        <option value="animal_hibou">A-t-il un hibou ?</option>
-        <option value="animal_chat">A-t-il un chat ?</option>
-        <option value="animal_rat">A-t-il un rat ?</option>
-
-        <!-- Professeur -->
-        <option value="professeur">Est-ce un professeur ?</option>
-        <option value="eleve">Est-ce un élève ?</option>
-
-        <!-- Sang -->
-        <option value="sang_pur">Est-il de sang pur ?</option>
-        <option value="sang_mele">Est-il de sang mêlé ?</option>
-        <option value="sang_moldu">Est-il de sang moldu ?</option>
-
-        <!-- Morale -->
-        <option value="gentil">Est-il gentil ?</option>
-        <option value="mechant">Est-il méchant ?</option>
-
-        <!-- Familles -->
-        <option value="famille_potter">Fait-il partie de la famille Potter ?</option>
-        <option value="famille_weasley">Fait-il partie de la famille Weasley ?</option>
-        <option value="famille_black">Fait-il partie de la famille Black ?</option>
-        <option value="famille_malfoy">Fait-il partie de la famille Malfoy ?</option>
-
-        <!-- Traits -->
-        <option value="trait_cicatrice">A-t-il une cicatrice ?</option>
-        <option value="trait_quidditch">Est-il joueur de Quidditch ?</option>
+        {% for q in questions %}
+            {% set i = loop.index0 %}
+            <option value="{{ i }}">{{ q.question }}</option>
+        {% endfor %}
 
     </select>
 
     <button type="submit" style="width: 200px;">Poser la question</button>
 </form>
+{% if reponse %}
+    <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
+        {{ reponse }}
+    </div>
+{% endif %}
+
+
 
 
 <h2>Devinez un personnage:</h2>
+
 <form method="POST" action="/jeu">
     <select name="guess" required style="width: 200px;">
         <option value="">-- Choisir un personnage --</option>
+
         {% for nom in restants %}
             <option value="{{ nom }}">{{ nom }}</option>
         {% endfor %}
+
     </select>
 
-    <button type="submit" style="width: 200px;" > Deviner le personnage </button>
-
+    <button type="submit" style="width: 200px;">Deviner le personnage</button>
 </form>
+

@@ -38,3 +38,10 @@ J'ai aussi ajouté un bouton retour à l'accueil
 
 J'ai également ajouté l'étape avant le commencement du jeu où l'utilisateur choisi un personnage. 
 Ce personnage est stocké dans session["secret_joueur"]. Pour l'instant on en fait rien, ce sera à utiliser lorsqu'on implémente l'IA qui doit deviner le perso du joueur
+
+30/11 : avancées Tania
+
+J'ai modifié la structure du code pour faire de la POO. Ca facilite la manipulation. Maintenant si on veut ajouter des perso ou des questions on modifie seulement les fichiers textes et le code s'adapte. 
+
+Le jeu ne se resetait pas quand on faisait une nouvelle partie j'ai corrigé 
+j'ai ajouté quelques animations : le choixpeau et reponse oui/non a chaque question posé 
