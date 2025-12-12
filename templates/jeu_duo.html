@@ -224,7 +224,7 @@
             <option value="{{ i }}" 
                     {% if i in asked_questions %}disabled style="color: grey;"{% endif %}>
                 {{ q.question }}
-                {% if i in asked_questions %} (déjà posée) {% endif %}
+                {% if i in asked_questions %} {% endif %}
             </option>
         {% endfor %}
 

@@ -66,7 +66,43 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-        }
+                    }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            }
+
+        /* Dropdown links container, hidden by default */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #8B0000;
+            min-width: 160px;
+            border-radius: 5px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: background-color 0.3s;
+            }
+
+        /* Hover effect for links */
+        .dropdown-content a:hover {
+            background-color: #A52A2A;
+            }
+
+            /* Show dropdown on hover */
+            .dropdown:hover .dropdown-content {
+            display: block;
+            }
     </style>
 </head>
 <body>
@@ -84,7 +120,13 @@
 
 
    <button class="start-button" onclick="window.location.href='/jeu'">Partie Solo</button>
-   <button class="start-button" onclick="window.location.href='/jeu_duo'">Partie Duo</button>
+   <div class="dropdown">
+    <button class="start-button">Partie Duo</button>
+    <div class="dropdown-content">
+        <a href="/choisir_mode_duo?difficulty=easy">Facile</a>
+        <a href="/choisir_mode_duo?difficulty=hard">Difficile</a>
+    </div>
+    </div>
 </body>
 
 <footer>

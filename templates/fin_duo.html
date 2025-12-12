@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fin du jeu</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .result-images {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .image-block {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .image-block img {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 5px;
+            border: 5px solid transparent;
+        }
+
+        .correct img {
+            border-color: green;
+        }
+
+        .incorrect img {
+            border-color: red;
+        }
+
+        .restart-button {
+            background-color: #8B0000;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 150px;
+            max-width: 250px;
+            transition: background-color 0.3s ease;
+        }
+
+        .restart-button:hover {
+            background-color: #A52A2A;
+        }
+    </style>
+</head>
+<body>
+<h1>{{ message }}</h1>
+
+{% if not resultat %}
+    <div class="result-images">
+        <div class="image-block opponent-guess">
+            <h3>L’ordinateur a deviné ton personnage !</h3>
+            <img src="{{ secret_image }}" alt="{{ computer_guess.nom }}">
+            <p>{{ computer_guess.nom }}</p>
+        </div>
+
+        <div class="image-block player-secret">
+            <h3>Tu devais deviner :</h3>
+            <img src="{{ personnages[secret] }}" alt="{{ secret }}">
+            <p>{{ secret }}</p>
+        </div>
+    </div>
+{% else %}
+    <div class="image-block correct">
+        <h3>Le bon personnage :</h3>
+        <img src="{{ secret_image }}" alt="{{ secret }}">
+        <p>{{ secret }}</p>
+    </div>
+{% endif %}
+
+<button class="restart-button" onclick="window.location.href='/reset'">Nouvelle partie</button>
+
+</body>
+</html>
