@@ -10,6 +10,7 @@ app.secret_key = "secret123"
 
 @app.route('/')
 def accueil():
+    session.clear() #We can remove if we don't want to reset everytiem we go back to the home page
     return render_template('accueil.html')
 
 # Mode SOLO
@@ -44,9 +45,9 @@ def jeu():
         if guess:
             resultat = (guess == secret_obj.nom)
             if resultat:
-                message = f"Bravo ! Tu as deviné le personnage {secret_obj.nom}"
+                message = f"Bravo ! Tu as deviné le personnage {secret_obj.nom}."
             else:
-                message = f"Raté, ce n'était pas {guess}. Le personnage à deviner était {secret_obj.nom}"
+                message = f"Raté, ce n'était pas {guess}. Le personnage à deviner était {secret_obj.nom}."
             return render_template(
                 "fin.html",
                 message=message,
@@ -164,9 +165,9 @@ def jeu_duo():
         if guess:
             resultat = (guess == secret_obj.nom)
             if resultat:
-                message = f"Bravo ! Tu as deviné le personnage {secret_obj.nom}"
+                message = f"Bravo ! Tu as deviné le personnage {secret_obj.nom}."
             else:
-                message = f"Raté, ce n'était pas {guess}. Le personnage était {secret_obj.nom}" #Loser
+                message = f"Raté, ce n'était pas {guess}. Le personnage était {secret_obj.nom}." #Loser
             return render_template(
                 "fin.html",
                 message=message,
