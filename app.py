@@ -19,20 +19,19 @@ def accueil():
 def jeu():
     session["mode"] = "solo"
 
-    # L'ordinateur choisit le personnage à deviner
-    if "secret" not in session:
-        secret_obj = random.choice(liste_personnages)
-        session["secret"] = secret_obj.nom
-        session["restants"] = [p.nom for p in liste_personnages]
+    if "elimines" not in session:
+        session["elimines"] = []
 
     if "asked_questions" not in session:
         session["asked_questions"] = []
 
+    # L'ordinateur choisit le personnage à deviner
+    if "secret" not in session:
+        secret_obj = random.choice(liste_personnages)
+        session["secret"] = secret_obj.nom
+
     secret_nom = session["secret"]
     secret_obj = next(p for p in liste_personnages if p.nom == secret_nom)
-
-    restants_noms = session.get("restants", [p.nom for p in liste_personnages])
-    restants = [p for p in liste_personnages if p.nom in restants_noms]
 
     reponse = None
     message = None
@@ -41,13 +40,14 @@ def jeu():
         guess = (request.form.get("guess") or "").strip()
         question_index = (request.form.get("question") or "").strip()
 
-        # Quand le joueur devine 
+        # Devinette
         if guess:
             resultat = (guess == secret_obj.nom)
             if resultat:
                 message = f"Bravo ! Tu as deviné le personnage {secret_obj.nom}."
             else:
                 message = f"Raté, ce n'était pas {guess}. Le personnage à deviner était {secret_obj.nom}."
+
             return render_template(
                 "fin.html",
                 message=message,
@@ -58,26 +58,37 @@ def jeu():
                 secret_image=personnages.get(secret_obj.nom)
             )
 
-        # Le joueur pose une question
+        # Question
         elif question_index:
             idx = int(question_index)
-            session["asked_questions"].append(idx)
+            if idx not in session["asked_questions"]:
+                session["asked_questions"].append(idx)
+
             question_obj = liste_questions[idx]
-            reponse_oui, nouveaux_restants = filtrer_personnages(restants, question_obj, secret_obj )
-            session["restants"] = [p.nom for p in nouveaux_restants]
-            restants = nouveaux_restants
+            reponse_oui = question_obj.poser_question(secret_obj)
             reponse = "Oui" if reponse_oui else "Non"
 
-    # Le tour est fini
     return render_template(
         'jeu.html',
         personnages=personnages,
-        restants=session["restants"],
+        elimines=session["elimines"],
         reponse=reponse,
         questions=liste_questions,
         asked_questions=session["asked_questions"],
         message=message
-        )
+    )
+
+@app.route('/toggle_elimine/<nom>', methods=['POST'])
+def toggle_elimine(nom):
+    elimines = set(session.get("elimines", []))
+
+    if nom in elimines:
+        elimines.remove(nom)
+    else:
+        elimines.add(nom)
+
+    session["elimines"] = list(elimines)
+    return ("", 204)  # pas de page, juste OK
 
 
 # Mode DUO
@@ -126,9 +137,12 @@ def jeu_duo():
 
     if "opponent_question_idx" not in session:
         session["opponent_question_idx"] = None
+    
+    if "elimines_duo" not in session:
+        session["elimines_duo"] = []
+
 
     secret_obj = next(p for p in liste_personnages if p.nom == session["secret"])
-    restants = [p for p in liste_personnages if p.nom in session["restants"]]
     restants_opponent = [p for p in liste_personnages if p.nom in session["restants_opponent"]]
     reponse = None
     message = None
@@ -140,12 +154,13 @@ def jeu_duo():
         answer_opp = request.form.get("answer_opponent")
         if answer_opp is not None and opponent_question_idx is not None:
             question_obj = liste_questions[opponent_question_idx]
+
             new_restants_opp = filter_for_computer(restants_opponent, question_obj, answer_opp)
             session["restants_opponent"] = [p.nom for p in new_restants_opp]
-            restants_opponent = new_restants_opp 
             session["opponent_question_idx"] = None
+
             if len(new_restants_opp) == 1:
-                computer_guess = new_restants_opp[0]
+                computer_guess = new_restants_opp[0].nom
                 message = "Dommage, tu as perdu."
                 return render_template(
                     "fin_duo.html",
@@ -156,9 +171,11 @@ def jeu_duo():
                     guessed_image=None,
                     computer_guess=computer_guess,
                     personnages=personnages,
-                    secret_image=personnages.get(computer_guess.nom)
+                    secret_image=personnages.get(computer_guess)
                 )
+
             return redirect('/jeu_duo')
+
 
         # Si le joueur émet une hypothèse
         guess = (request.form.get("guess") or "").strip()
@@ -182,17 +199,17 @@ def jeu_duo():
         question_index = (request.form.get("question") or "").strip()
         if question_index:
             idx = int(question_index)
-            session["asked_questions"].append(idx)
+            if idx not in session["asked_questions"]:
+                session["asked_questions"].append(idx)
+
             question_obj = liste_questions[idx]
-            reponse_oui, nouveaux_restants = filtrer_personnages(restants, question_obj, secret_obj)
-            session["restants"] = [p.nom for p in nouveaux_restants]
-            restants = nouveaux_restants
+            reponse_oui = question_obj.poser_question(secret_obj)
             reponse = "Oui" if reponse_oui else "Non"
 
-            # Après le joueur, c'est au tour de l'ordinateur de poser une question
-            asked = session["asked_questions"] 
+            asked = session["asked_questions"]
             unused_questions = [i for i in range(len(liste_questions)) if i not in asked]
             difficulty = session.get("duo_difficulty", "easy")
+
             if unused_questions:
                 if difficulty == "easy":
                     session["opponent_question_idx"] = random.choice(unused_questions)
@@ -201,18 +218,33 @@ def jeu_duo():
             else:
                 session["opponent_question_idx"] = None
 
+
     #Fin du tour
     return render_template(
-        'jeu_duo.html',
+        "jeu_duo.html",
         personnages=personnages,
-        restants=session["restants"],
-        restants_opponent=session["restants_opponent"],
+        elimines=session["elimines_duo"],
+        restants_opponent=session["restants_opponent"],  
         reponse=reponse,
         questions=liste_questions,
         asked_questions=session["asked_questions"],
         opponent_question_idx=session.get("opponent_question_idx"),
         message=message
     )
+
+
+@app.route('/toggle_elimine_duo/<nom>', methods=['POST'])
+def toggle_elimine_duo(nom):
+    elimines = set(session.get("elimines_duo", []))
+
+    if nom in elimines:
+        elimines.remove(nom)
+    else:
+        elimines.add(nom)
+
+    session["elimines_duo"] = list(elimines)
+    return ("", 204)
+
 
 
 @app.route('/reset')
@@ -234,13 +266,6 @@ def filter_for_computer(restants_opponent, question_obj, player_answer):
     else:
         return [p for p in restants_opponent if not question_obj.poser_question(p)]
 
-
-def filtrer_personnages(personnages_restants, question_obj, secret_obj):
-    reponse = question_obj.poser_question(secret_obj)
-    nouveaux_restants = [
-        p for p in personnages_restants if question_obj.poser_question(p) == reponse
-    ]
-    return reponse, nouveaux_restants
 
 
 if __name__ == '__main__':

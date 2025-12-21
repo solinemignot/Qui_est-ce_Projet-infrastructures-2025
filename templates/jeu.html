@@ -3,39 +3,44 @@
 <head>
     <title>Harry Potter</title>
     <style>
-        body { text-align: center ;
-                margin-top: 50px;
-                }
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
 
         .grille {
-                display: grid;
-                grid-template-columns: repeat(6, 1fr); /* exactly 6 columns */
-                grid-template-rows: repeat(4, auto);   /* 4 rows, height adjusts automatically */
-                gap: 15px;                             /* space between cards */
-                justify-items: center;                 /* center cards horizontally */
-                margin: 40px auto;                     /* center grid in page */
-                max-width: 100%;                       /* grid can shrink/grow with window */
-                padding: 0 10px;
-                box-sizing: border-box;
-            }
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(4, auto);
+            gap: 15px;
+            justify-items: center;
+            margin: 40px auto;
+            max-width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
 
         .grille img {
-            width: 90px;           
-            height: 120px;          
-            object-fit: cover;      
-            object-position: top;   
-            border-radius: 8px;     
+            width: 90px;
+            height: 120px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 8px;
+        }
+
+        .carte {
+            cursor: pointer; /* 👈 pour montrer que c'est cliquable */
         }
 
         .carte p {
-                    font-size: 14px;      /* smaller font */
-                    margin: 5px 0 0 0;    /* reduce space above and below */
-                    white-space: nowrap;   /* keep names in one line */
-                    overflow: hidden;      /* hide overflow if name too long */
-                    text-overflow: ellipsis; /* add "..." for long names */
-                }
+            font-size: 14px;
+            margin: 5px 0 0 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-                /* Les personnages éliminés */
+        /* Les personnages éliminés */
         .eliminee img {
             filter: brightness(0.2) grayscale(100%);
         }
@@ -45,7 +50,7 @@
         }
 
         .menu-button {
-            background-color: #8B0000; 
+            background-color: #8B0000;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -53,7 +58,7 @@
             cursor: pointer;
             border-radius: 5px;
             margin-top: 10px;
-            width: auto;         
+            width: auto;
             max-width: 250px;
             transition: background-color 0.3s ease;
         }
@@ -75,91 +80,82 @@
         }
 
         .simple-answer.yes {
-            background-color: #2ecc71;   /* vert */
+            background-color: #2ecc71;
             color: white;
         }
 
         .simple-answer.no {
-            background-color: #e74c3c;   /* rouge */
+            background-color: #e74c3c;
             color: white;
         }
-
     </style>
-
 </head>
 
 <body>
-    <button class="menu-button" onclick="window.location.href='/'">
-        Menu
-   </button>
+    <button class="menu-button" onclick="window.location.href='/'">Menu</button>
 
-   <h1>Qui est-ce? Harry Potter</h1>
+    <h1>Qui est-ce? Harry Potter</h1>
+
     <div class="grille">
-    {% for nom, image in personnages.items() %}
-        <!-- griser la carte si le perso n'est pas dans "restants"-->
-        <div class="carte {% if restants is defined and nom not in restants %}eliminee{% endif %}">
-        <img src="{{ image }}" alt="{{ nom }}">
-        <p>{{ nom }}</p>
-        </div>
-    {% endfor %}
+        {% for nom, image in personnages.items() %}
+            <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
+                <img src="{{ image }}" alt="{{ nom }}">
+                <p>{{ nom }}</p>
+            </div>
+        {% endfor %}
     </div>
 
-
-<!--
     <h2>Posez une question :</h2>
-<form method="POST" action="/jeu">
-    <input type="text" name="question" placeholder="Ex: A-t-il des lunettes ?" required>
-    <button type="submit">Poser la question</button>
-</form>
-        {% if reponse %}
-            <p><strong>Réponse :</strong> {{ reponse }}</p>
-        {% endif %}
-   
+
+    <form method="POST" action="/jeu">
+        <select name="question" required style="width: 200px;">
+            <option value="">-- Choisir une question --</option>
+
+            {% for q in questions %}
+                {% set i = loop.index0 %}
+                <option value="{{ i }}" {% if i in asked_questions %}disabled style="color: grey;"{% endif %}>
+                    {{ q.question }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" style="width: 200px;">Poser la question</button>
+    </form>
+
+    {% if reponse %}
+        <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
+            {{ reponse }}
+        </div>
+    {% endif %}
+
+    <h2>Devinez un personnage:</h2>
+
+    <form method="POST" action="/jeu">
+        <select name="guess" required style="width: 200px;">
+            <option value="">-- Choisir un personnage --</option>
+
+            {% for nom in personnages.keys() %}
+                {% if nom not in elimines %}
+                    <option value="{{ nom }}">{{ nom }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <button type="submit" style="width: 200px;">Deviner le personnage</button>
+    </form>
+
+    <script>
+      document.querySelectorAll('.carte').forEach(card => {
+        card.addEventListener('click', async () => {
+          const nom = card.dataset.nom;
+
+          await fetch(`/toggle_elimine/${encodeURIComponent(nom)}`, {
+            method: 'POST'
+          });
+
+          card.classList.toggle('eliminee');
+        });
+      });
+    </script>
 </body>
 </html>
--->
-
-
-<h2>Posez une question :</h2>
-
-<form method="POST" action="/jeu">
-    <select name="question" required style="width: 200px;">
-        <option value="">-- Choisir une question --</option>
-
-        {% for q in questions %}
-            {% set i = loop.index0 %}
-            <option value="{{ i }}" 
-                    {% if i in asked_questions %}disabled style="color: grey;"{% endif %}>
-                {{ q.question }}
-            </option>
-        {% endfor %}
-
-
-    </select>
-
-    <button type="submit" style="width: 200px;">Poser la question</button>
-</form>
-{% if reponse %}
-    <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
-        {{ reponse }}
-    </div>
-{% endif %}
-
-
-
-
-<h2>Devinez un personnage:</h2>
-
-<form method="POST" action="/jeu">
-    <select name="guess" required style="width: 200px;">
-        <option value="">-- Choisir un personnage --</option>
-
-        {% for nom in restants %}
-            <option value="{{ nom }}">{{ nom }}</option>
-        {% endfor %}
-
-    </select>
-
-    <button type="submit" style="width: 200px;">Deviner le personnage</button>
-</form>
-
