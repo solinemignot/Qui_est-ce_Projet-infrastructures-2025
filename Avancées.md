@@ -45,3 +45,9 @@ J'ai modifié la structure du code pour faire de la POO. Ca facilite la manipula
 
 Le jeu ne se resetait pas quand on faisait une nouvelle partie j'ai corrigé 
 j'ai ajouté quelques animations : le choixpeau et reponse oui/non a chaque question posé 
+
+
+21/12 : avancées Tania 
+
+j'ai modifié la partie solo + duo pour que le joueur grise lui meme les cartes.
+idée d'amelioration : quand on repond faux aux questions de l'ordi des fois il elimine tout le monde. A ce moment la ce serait bien d'avoir un message qui s'affiche en mode "desolée aucun personnage ne correpond à ta reponse"
