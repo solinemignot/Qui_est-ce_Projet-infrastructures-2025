@@ -53,5 +53,4 @@ questions_map = {
 
     # Traits distinctifs
     "trait_cicatrice": ("trait_distinctif", "Cicatrice", "Est-ce que le personnage a une cicatrice particulière ?"),
-    "trait_quidditch": ("trait_distinctif", "Quidditch", "Est-ce que le personnage joue au Quidditch ?"),
 }
