@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Qui est-ce ?</title>
+
     <style>
         body {
             text-align: center;
@@ -18,19 +19,17 @@
 
         h1 {
             margin-top: 40px;
-            font-size:60px;
-            font-family: Arial, sans-serif;
+            font-size: 60px;
             color: #8B0000;
             text-shadow:
-                        3px 3px 0 white,   /* first border (white) */
-                        -3px 3px 0 white,
-                        3px -3px 0 white,
-                        -3px -3px 0 white,
-                        
-                        5px 5px 0 blue,    /* second border (blue) */
-                        -5px 5px 0 blue,
-                        5px -5px 0 blue,
-                        -5px -5px 0 blue;
+                3px 3px 0 white,
+                -3px 3px 0 white,
+                3px -3px 0 white,
+                -3px -3px 0 white,
+                5px 5px 0 blue,
+                -5px 5px 0 blue,
+                5px -5px 0 blue,
+                -5px -5px 0 blue;
         }
 
         img {
@@ -40,7 +39,7 @@
         }
 
         .start-button {
-            background-color: #8B0000; 
+            background-color: #8B0000;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -48,7 +47,6 @@
             cursor: pointer;
             border-radius: 5px;
             margin-top: 20px;
-            width: auto;         
             max-width: 250px;
             transition: background-color 0.3s ease;
         }
@@ -57,23 +55,11 @@
             background-color: #A52A2A;
         }
 
-        footer {
-            text-align: left;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-                    }
-
         .dropdown {
             position: relative;
             display: inline-block;
-            }
+        }
 
-        /* Dropdown links container, hidden by default */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -82,64 +68,177 @@
             border-radius: 5px;
             z-index: 1000;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            }
+        }
 
-        /* Links inside the dropdown */
         .dropdown-content a {
             color: white;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
             text-align: center;
-            transition: background-color 0.3s;
-            }
+        }
 
-        /* Hover effect for links */
         .dropdown-content a:hover {
             background-color: #A52A2A;
-            }
+        }
 
-            /* Show dropdown on hover */
-            .dropdown:hover .dropdown-content {
+        .dropdown:hover .dropdown-content {
             display: block;
-            }
+        }
+
+        /*POPUP*/
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .popup {
+            background: white;
+            width: min(650px, 92vw);
+            max-height: 70vh;
+            overflow-y: auto;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            padding: 18px 20px;
+            text-align: left;
+        }
+
+        .popup h2 {
+            margin: 0 0 8px 0;
+            color: #8B0000;
+            font-size: 22px;
+        }
+
+        .popup p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.25;
+        }
+
+        .popup ul {
+            margin: 6px 0 6px 18px;
+            padding: 0;
+        }
+
+        .popup-actions {
+            margin-top: 14px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .popup-close {
+            background: #8B0000;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .popup-close:hover {
+            background: #A52A2A;
+        }
+
+        footer {
+            margin-top: auto;
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+        }
     </style>
 </head>
+
 <body>
-   <h1>Qui est-ce ?</h1>
 
-   <!-- Choixpeau animé -->
+<!-- POPUP -->
+<div id="popupOverlay" class="popup-overlay">
+    <div class="popup">
+        <h2>Bienvenue</h2>
+        <p>
+            <strong>Bienvenue dans le Qui est-ce ? Harry Potter</strong><br><br>
 
+            Vous pouvez jouer <strong>en solo</strong> ou <strong>affronter l’ordinateur</strong>.<br><br>
 
-   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" 
-        alt="Harry Potter">
+            <strong>Mode Solo</strong><br>
+            Posez des questions et, selon les réponses, éliminez les personnages.<br>
+            Cliquez sur une carte pour la griser.<br><br>
 
-    <img src="https://media1.tenor.com/m/YEPii0Pgd-kAAAAC/sorting-hat.gif"
+            <strong>Mode Duo</strong><br>
+            Posez des questions et répondez à celles de l’ordinateur.<br>
+            Deux niveaux sont disponibles :
+            <ul>
+                <li><strong>Facile</strong> : questions aléatoires</li>
+                <li><strong>Difficile</strong> : l’ordinateur est plus intelligent 😉</li>
+            </ul>
+
+            En bas à droite, suivez les hypothèses de l’ordinateur au fil de la partie.<br><br>
+
+            Bonne partie !
+        </p>
+
+        <div class="popup-actions">
+            <button class="popup-close" id="popupCloseBtn">OK</button>
+        </div>
+    </div>
+</div>
+
+<h1>Qui est-ce ?</h1>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
+
+<img src="https://media1.tenor.com/m/YEPii0Pgd-kAAAAC/sorting-hat.gif"
      alt="Choixpeau magique"
      style="width:60%; max-width:500px; margin-top:10px;">
 
+<button class="start-button" onclick="window.location.href='/jeu'">Partie Solo</button>
 
-   <button class="start-button" onclick="window.location.href='/jeu'">Partie Solo</button>
-   <div class="dropdown">
+<div class="dropdown">
     <button class="start-button">Partie Duo</button>
     <div class="dropdown-content">
         <a href="/choisir_mode_duo?difficulty=easy">Facile</a>
         <a href="/choisir_mode_duo?difficulty=hard">Difficile</a>
     </div>
-    </div>
-</body>
+</div>
+
+<script>
+    window.addEventListener("load", () => {
+        document.getElementById("popupOverlay").style.display = "flex";
+    });
+
+    document.getElementById("popupCloseBtn").onclick = () => {
+        document.getElementById("popupOverlay").style.display = "none";
+    };
+
+    document.getElementById("popupOverlay").onclick = (e) => {
+        if (e.target.id === "popupOverlay") {
+            e.currentTarget.style.display = "none";
+        }
+    };
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            document.getElementById("popupOverlay").style.display = "none";
+        }
+    });
+</script>
 
 <footer>
-    <h3>Projet d'Infrastructures et système logiciels</h3>
-    <p>Groupe : 
-        <ul>
-            <li>Leena Boyina</li>
-            <li>Ndoumbe Bayo</li>
-            <li>Tea Toscan du Plantier</li>
-            <li>Tania Admane</li>
-            <li>Soline Mignot</li>
-        </ul>
-    </p>
+    <h3>Projet d’Infrastructures et systèmes logiciels</h3>
+    <ul>
+        <li>Leena Boyina</li>
+        <li>Ndoumbe Bayo</li>
+        <li>Tea Toscan du Plantier</li>
+        <li>Tania Admane</li>
+        <li>Soline Mignot</li>
+    </ul>
 </footer>
-</html>
 
+</body>
+</html>

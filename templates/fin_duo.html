@@ -30,13 +30,8 @@
             border: 5px solid transparent;
         }
 
-        .correct img {
-            border-color: green;
-        }
-
-        .incorrect img {
-            border-color: red;
-        }
+        .correct img { border-color: green; }
+        .incorrect img { border-color: red; }
 
         .restart-button {
             background-color: #8B0000;
@@ -57,22 +52,30 @@
     </style>
 </head>
 <body>
+
 <h1>{{ message }}</h1>
 
-{% if not resultat %}
+{# === CAS 1 : incohérent (aucun personnage possible) === #}
+{% if resultat is none %}
+    <p>Essaie de répondre de façon plus cohérente aux questions pour que l’ordinateur puisse trouver un personnage.</p>
+
+{# === CAS 2 : l'ordinateur gagne (resultat == False) === #}
+{% elif not resultat %}
     <div class="result-images">
-        <div class="image-block opponent-guess">
+        <div class="image-block opponent-guess incorrect">
             <h3>L’ordinateur a deviné ton personnage !</h3>
-            <img src="{{ secret_image }}" alt="{{ computer_guess.nom }}">
-            <p>{{ computer_guess.nom }}</p>
+            <img src="{{ secret_image }}" alt="{{ computer_guess }}">
+            <p>{{ computer_guess }}</p>
         </div>
 
-        <div class="image-block player-secret">
+        <div class="image-block player-secret correct">
             <h3>Tu devais deviner :</h3>
             <img src="{{ personnages[secret] }}" alt="{{ secret }}">
             <p>{{ secret }}</p>
         </div>
     </div>
+
+{# === CAS 3 : le joueur gagne (resultat == True) === #}
 {% else %}
     <div class="image-block correct">
         <h3>Le bon personnage :</h3>

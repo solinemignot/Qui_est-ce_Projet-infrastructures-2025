@@ -52,3 +52,10 @@ j'ai ajouté quelques animations : le choixpeau et reponse oui/non a chaque ques
 j'ai modifié la partie solo + duo pour que le joueur grise lui meme les cartes.
 - idée d'amelioration : quand on repond faux aux questions de l'ordi des fois il elimine tout le monde. A ce moment la ce serait bien d'avoir un message qui s'affiche en mode "desolée aucun personnage ne correpond à ta reponse"
 - aussi ajouter des indications de jeu pour guider l'utilisateur 
+
+22/12
+- si y'a plus aucun perso dispo, la partie s'arrete "desolée aucun perso ne corrrepond à ta description"
+- j'ai ajouté un popup au debut du jeu pour expliquer les regles du jeu 
+ameliorations : 
+- rendre le tout jolie
+- pour la partie difficile faire un arbre qui apprend au fur et a mesure des parties ? 

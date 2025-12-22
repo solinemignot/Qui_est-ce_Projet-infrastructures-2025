@@ -159,6 +159,22 @@ def jeu_duo():
             session["restants_opponent"] = [p.nom for p in new_restants_opp]
             session["opponent_question_idx"] = None
 
+            #Cas incohérent ou y'a plus aucun personnage possible
+            if len(new_restants_opp) == 0:
+                message = "Désolé, aucun personnage ne correspond à ta description."
+                return render_template(
+                    "fin_duo.html",
+                    message=message,
+                    resultat=None,          
+                    guess=None,
+                    secret=session["secret"],
+                    guessed_image=None,
+                    computer_guess=None,
+                    personnages=personnages,
+                    secret_image=None
+                )
+
+            #L'ordi a trouvé exactement 1 candidat et gagne
             if len(new_restants_opp) == 1:
                 computer_guess = new_restants_opp[0].nom
                 message = "Dommage, tu as perdu."
@@ -175,6 +191,7 @@ def jeu_duo():
                 )
 
             return redirect('/jeu_duo')
+
 
 
         # Si le joueur émet une hypothèse
