@@ -1,7 +1,8 @@
 
 class personnage():
-    def __init__(self,nom,maison,genre,cheveux,lunettes,baguette_particuliere,animal,professeur,sang,role,trait_distinctif,moralite,famille):
+    def __init__(self,nom,description,maison,genre,cheveux,lunettes,baguette_particuliere,animal,professeur,sang,role,trait_distinctif,moralite,famille):
         self.nom = nom
+        self.description = description
         self.maison = maison
         self.genre = genre
         self.cheveux = cheveux

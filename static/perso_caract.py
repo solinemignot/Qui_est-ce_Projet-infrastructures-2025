@@ -1,5 +1,7 @@
 caracteristiques_personnages = {
+
     "Harry Potter": {
+        "description": "Sorcier célèbre à la cicatrice en forme d’éclair, Harry est connu pour avoir survécu à Voldemort dès son enfance. Courageux et loyal, il agit souvent guidé par son instinct et son sens de la justice. Son destin est intimement lié à celui du Seigneur des Ténèbres.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Noirs",
@@ -13,7 +15,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Potter"
     },
+
     "Hermione Granger": {
+        "description": "Sorcière brillante et extrêmement studieuse, Hermione se distingue par son intelligence et sa rigueur. Toujours préparée, elle apporte des solutions grâce à ses connaissances approfondies. Son courage et son sens de la justice complètent parfaitement son esprit analytique.",
         "maison": "Gryffondor",
         "genre": "F",
         "cheveux": "Bruns",
@@ -27,7 +31,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Ron Weasley": {
+        "description": "Issu d’une grande famille de sorciers, Ron est le fidèle ami de Harry. Souvent maladroit et peu sûr de lui, il fait pourtant preuve d’un courage sincère dans les moments critiques. Son humour et sa loyauté renforcent le trio.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Roux",
@@ -41,7 +47,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Weasley"
     },
+
     "Drago Malefoy": {
+        "description": "Élève de Serpentard arrogant et provocateur, Drago est le rival direct de Harry. Élevé dans une famille de sang pur, il incarne les idéaux élitistes du monde magique. Derrière sa froideur se cache une personnalité plus tourmentée.",
         "maison": "Serpentard",
         "genre": "H",
         "cheveux": "Blonds",
@@ -55,7 +63,9 @@ caracteristiques_personnages = {
         "moralite": "Méchant",
         "famille": "Malfoy"
     },
+
     "Luna Lovegood": {
+        "description": "Sorcière rêveuse et singulière, Luna perçoit le monde magique différemment des autres. Souvent incomprise, elle fait preuve d’une grande sagesse et d’une loyauté sans faille. Son regard unique apporte une perspective précieuse.",
         "maison": "Serdaigle",
         "genre": "F",
         "cheveux": "Blonds",
@@ -69,7 +79,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Neville Londubat": {
+        "description": "Longtemps considéré comme maladroit et timide, Neville révèle peu à peu un courage remarquable. Sa détermination et sa loyauté en font un véritable héros discret. Il joue un rôle crucial dans la lutte finale contre Voldemort.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Bruns",
@@ -83,7 +95,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Ginny Weasley": {
+        "description": "Sorcière déterminée et indépendante, Ginny s’impose rapidement par son caractère affirmé. Excellente joueuse de Quidditch, elle fait aussi preuve d’un grand courage. Elle devient une figure forte du groupe.",
         "maison": "Gryffondor",
         "genre": "F",
         "cheveux": "Roux",
@@ -97,7 +111,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Weasley"
     },
+
     "Fred Weasley": {
+        "description": "Farceur audacieux et inventif, Fred adore repousser les limites avec humour. Avec son jumeau, il transforme la plaisanterie en véritable art. Son énergie et sa créativité marquent tous ceux qui le rencontrent.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Roux",
@@ -111,7 +127,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Weasley"
     },
+
     "George Weasley": {
+        "description": "Jumeau de Fred, George partage le même goût pour les farces et l’inventivité. Moins impulsif mais tout aussi drôle, il complète parfaitement son frère. Leur complicité est légendaire à Poudlard.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Roux",
@@ -125,7 +143,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Weasley"
     },
+
     "Severus Rogue": {
+        "description": "Professeur austère et redouté, Rogue est un personnage profondément complexe. Derrière son apparente froideur se cache un passé douloureux et des choix difficiles. Sa loyauté réelle ne se révèle que tardivement.",
         "maison": "Serpentard",
         "genre": "H",
         "cheveux": "Noirs",
@@ -139,7 +159,9 @@ caracteristiques_personnages = {
         "moralite": "Ambigu",
         "famille": "N/A"
     },
+
     "Minerva McGonagall": {
+        "description": "Professeure stricte mais profondément juste, McGonagall incarne l’autorité bienveillante. Très attachée à Poudlard, elle protège ses élèves avec fermeté. Son courage se révèle pleinement dans les moments critiques.",
         "maison": "Gryffondor",
         "genre": "F",
         "cheveux": "Noirs",
@@ -153,7 +175,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Albus Dumbledore": {
+        "description": "Directeur emblématique de Poudlard, Dumbledore est l’un des plus grands sorciers de son époque. Sage et stratège, il agit souvent dans l’ombre pour le bien commun. Son calme masque une intelligence redoutable.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Argentés",
@@ -167,7 +191,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Rubeus Hagrid": {
+        "description": "Demi-géant au grand cœur, Hagrid est passionné par les créatures magiques. Très loyal envers ses amis, il agit toujours avec bienveillance. Sa gentillesse contraste avec sa carrure impressionnante.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Noirs/barbe",
@@ -181,7 +207,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Sirius Black": {
+        "description": "Parrain de Harry, Sirius est courageux et profondément loyal. Capable de se transformer en chien noir, il est injustement accusé pendant de longues années. Sa liberté retrouvée reste fragile.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Noirs",
@@ -195,7 +223,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Black"
     },
+
     "Remus Lupin": {
+        "description": "Professeur bienveillant et discret, Lupin est apprécié pour sa pédagogie. Marqué par sa condition de loup-garou, il mène une vie difficile. Sa gentillesse et son courage inspirent ses élèves.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Bruns",
@@ -209,7 +239,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Bellatrix Lestrange": {
+        "description": "Mangemorte cruelle et instable, Bellatrix est entièrement dévouée à Voldemort. Elle agit avec une violence déchaînée et sans remords. Sa folie la rend particulièrement dangereuse.",
         "maison": "Serpentard",
         "genre": "F",
         "cheveux": "Noirs",
@@ -223,7 +255,9 @@ caracteristiques_personnages = {
         "moralite": "Méchant",
         "famille": "Lestrange"
     },
+
     "Dolores Ombrage": {
+        "description": "Professeure autoritaire et hypocrite, Ombrage abuse de son pouvoir avec cruauté. Derrière son apparence douce se cache une personnalité impitoyable. Elle incarne l’oppression institutionnelle.",
         "maison": "Serpentard",
         "genre": "F",
         "cheveux": "Gris",
@@ -237,7 +271,9 @@ caracteristiques_personnages = {
         "moralite": "Méchant",
         "famille": "N/A"
     },
+
     "Cedric Diggory": {
+        "description": "Élève exemplaire et loyal, Cedric est apprécié de tous. Champion du Tournoi des Trois Sorciers, il fait preuve d’un grand courage. Sa fin tragique marque profondément le monde magique.",
         "maison": "Poufsouffle",
         "genre": "H",
         "cheveux": "Bruns",
@@ -251,7 +287,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Cho Chang": {
+        "description": "Élève sensible et talentueuse de Serdaigle, Cho excelle au Quidditch. Marquée par les événements tragiques, elle reste profondément émotive. Son attachement à Harry est sincère mais complexe.",
         "maison": "Serdaigle",
         "genre": "F",
         "cheveux": "Noirs",
@@ -265,7 +303,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "N/A"
     },
+
     "Peter Pettigrow": {
+        "description": "Sorcier faible et opportuniste, Pettigrow trahit ses amis par peur. Capable de se transformer en rat, il vit longtemps caché. Sa lâcheté a des conséquences dramatiques.",
         "maison": "Gryffondor",
         "genre": "H",
         "cheveux": "Bruns",
@@ -279,7 +319,9 @@ caracteristiques_personnages = {
         "moralite": "Méchant",
         "famille": "N/A"
     },
+
     "Nymphadora Tonks": {
+        "description": "Auror maladroite et attachante, Tonks possède le don rare de métamorphomage. Toujours positive, elle agit avec courage malgré les dangers. Son énergie et son humour la rendent inoubliable.",
         "maison": "Poufsouffle",
         "genre": "F",
         "cheveux": "Variables (Métamorphomage)",
@@ -293,8 +335,10 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Tonks / Black (par alliance)"
     },
-        "Padma Patil": {
-        "maison": "Gryffondor",   # version FILM, "Serdaigle" dans les livres
+
+    "Padma Patil": {
+        "description": "Élève sérieuse et réservée, Padma se distingue par son calme et son intelligence. Moins mise en avant que d’autres, elle reste néanmoins attentive et réfléchie. Sa relation avec sa sœur jumelle est très forte.",
+        "maison": "Gryffondor",
         "genre": "F",
         "cheveux": "Noirs",
         "lunettes": False,
@@ -307,7 +351,9 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Patil"
     },
-        "Pansy Parkinson": {
+
+    "Pansy Parkinson": {
+        "description": "Élève de Serpentard méprisante et arrogante, Pansy soutient ouvertement Drago Malefoy. Elle adopte souvent une attitude provocatrice. Son comportement reflète les valeurs élitistes de sa maison.",
         "maison": "Serpentard",
         "genre": "F",
         "cheveux": "Bruns",
@@ -321,12 +367,14 @@ caracteristiques_personnages = {
         "moralite": "Méchant",
         "famille": "Parkinson"
     },
-        "Fleur Delacour": {
+
+    "Fleur Delacour": {
+        "description": "Sorcière élégante et fière, Fleur représente Beauxbâtons lors du Tournoi des Trois Sorciers. Derrière son charme naturel se cache une grande détermination. Elle prouve sa valeur par son courage et sa loyauté.",
         "maison": "Beauxbâtons",
         "genre": "F",
         "cheveux": "Blonds",
         "lunettes": False,
-        "baguette_particuliere": True,   # contient un cheveu de Vélane
+        "baguette_particuliere": True,
         "animal": "Aucun",
         "professeur": False,
         "sang": "Part-Vélane",
@@ -335,5 +383,4 @@ caracteristiques_personnages = {
         "moralite": "Gentil",
         "famille": "Delacour"
     }
-
 }

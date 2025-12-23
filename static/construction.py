@@ -9,6 +9,7 @@ def construire_personnage():
         for nom, caracteristiques in caracteristiques_personnages.items():
             perso = personnage(
                 nom=nom,
+                description=caracteristiques.get("description"),
                 maison=caracteristiques.get("maison"),
                 genre=caracteristiques.get("genre"),
                 cheveux=caracteristiques.get("cheveux"),

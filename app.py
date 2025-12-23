@@ -48,12 +48,16 @@ def jeu():
             else:
                 message = f"Raté, ce n'était pas {guess}. Le personnage à deviner était {secret_obj.nom}."
 
+            guessed_obj = next((p for p in liste_personnages if p.nom == guess), None)
+
             return render_template(
                 "fin.html",
                 message=message,
                 resultat=resultat,
                 guess=guess,
+                description_guess = guessed_obj.description,
                 secret=secret_obj.nom,
+                description_secret=secret_obj.description,
                 guessed_image=personnages.get(guess),
                 secret_image=personnages.get(secret_obj.nom)
             )
@@ -186,6 +190,7 @@ def jeu_duo():
                     secret=session["secret"],
                     guessed_image=None,
                     computer_guess=computer_guess,
+                    computer_guess_description=computer_guess.description,
                     personnages=personnages,
                     secret_image=personnages.get(computer_guess)
                 )
@@ -202,12 +207,17 @@ def jeu_duo():
                 message = f"Bravo ! Tu as deviné le personnage {secret_obj.nom}."
             else:
                 message = f"Raté, ce n'était pas {guess}. Le personnage était {secret_obj.nom}." #Loser
+
+            guessed_obj = next((p for p in liste_personnages if p.nom == guess), None)
+
             return render_template(
                 "fin.html",
                 message=message,
                 resultat=resultat,
                 guess=guess,
+                description_guess= guessed_obj.description,
                 secret=secret_obj.nom,
+                description_secret= secret_obj.description,
                 guessed_image=personnages.get(guess),
                 secret_image=personnages.get(secret_obj.nom)
             )

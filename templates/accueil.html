@@ -1,204 +1,53 @@
-<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
     <title>Qui est-ce ?</title>
-
-    <style>
-        body {
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            margin-top: 40px;
-            font-size: 60px;
-            color: #8B0000;
-            text-shadow:
-                3px 3px 0 white,
-                -3px 3px 0 white,
-                3px -3px 0 white,
-                -3px -3px 0 white,
-                5px 5px 0 blue,
-                -5px 5px 0 blue,
-                5px -5px 0 blue,
-                -5px -5px 0 blue;
-        }
-
-        img {
-            width: 150px;
-            height: auto;
-            margin-top: 20px;
-        }
-
-        .start-button {
-            background-color: #8B0000;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
-            max-width: 250px;
-            transition: background-color 0.3s ease;
-        }
-
-        .start-button:hover {
-            background-color: #A52A2A;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #8B0000;
-            min-width: 160px;
-            border-radius: 5px;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #A52A2A;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /*POPUP*/
-        .popup-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.55);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .popup {
-            background: white;
-            width: min(650px, 92vw);
-            max-height: 70vh;
-            overflow-y: auto;
-            border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            padding: 18px 20px;
-            text-align: left;
-        }
-
-        .popup h2 {
-            margin: 0 0 8px 0;
-            color: #8B0000;
-            font-size: 22px;
-        }
-
-        .popup p {
-            margin: 0;
-            font-size: 15px;
-            line-height: 1.25;
-        }
-
-        .popup ul {
-            margin: 6px 0 6px 18px;
-            padding: 0;
-        }
-
-        .popup-actions {
-            margin-top: 14px;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .popup-close {
-            background: #8B0000;
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 8px;
-        }
-
-        .popup-close:hover {
-            background: #A52A2A;
-        }
-
-        footer {
-            margin-top: auto;
-            width: 100%;
-            text-align: left;
-            padding: 10px;
-        }
-    </style>
 </head>
-
 <body>
+    <nav class="liens_menu" id="liens_menu">
+			<a href="{{ url_for('accueil') }}" class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
+            </a>
+			<ul>
+        		<li class="menu-items"><a href="">Mode Solo</a></li>
+                <li class="menu-items"><a href="">Mode Duel</a></li>
 
-<!-- POPUP -->
-<div id="popupOverlay" class="popup-overlay">
-    <div class="popup">
-        <h2>Bienvenue</h2>
-        <p>
-            <strong>Bienvenue dans le Qui est-ce ? Harry Potter</strong><br><br>
+			</ul>
+    </nav>
+    <header class="header_accueil">
+        <div class="header_text appear">
+            <h1 >Qui est-ce ?</h1>
+            <h4>La magie est dans les détails… sauras-tu percer le mystère ?</h4>
+        </div>
+    </header>
 
-            Vous pouvez jouer <strong>en solo</strong> ou <strong>affronter l’ordinateur</strong>.<br><br>
-
-            <strong>Mode Solo</strong><br>
-            Posez des questions et, selon les réponses, éliminez les personnages.<br>
-            Cliquez sur une carte pour la griser.<br><br>
-
-            <strong>Mode Duo</strong><br>
-            Posez des questions et répondez à celles de l’ordinateur.<br>
-            Deux niveaux sont disponibles :
-            <ul>
-                <li><strong>Facile</strong> : questions aléatoires</li>
-                <li><strong>Difficile</strong> : l’ordinateur est plus intelligent 😉</li>
-            </ul>
-
-            En bas à droite, suivez les hypothèses de l’ordinateur au fil de la partie.<br><br>
-
-            Bonne partie !
-        </p>
-
-        <div class="popup-actions">
-            <button class="popup-close" id="popupCloseBtn">OK</button>
+    <section class="main_section">
+        <h1>Bienvenue à Poudlard, jeune sorcier !</h1>
+        <!-- <img src="https://media1.tenor.com/m/YEPii0Pgd-kAAAAC/sorting-hat.gif" alt="Choixpeau magique" style="width:60%; max-width:550px; margin-top:60px; margin-bottom:35px">-->
+        <p>Un personnage du monde magique s’est caché derrière une carte mystère. À toi d’enquêter afin de dévoiler son identité. À chaque tour, tu peux poser une question pour réduire la liste des personnages possibles. Lorsque tu te sens prêt, tente ta chance et devine le personnage caché. Cliquez sur une carte pour la griser.</p>
+    </section>
+        <div class="card-container">
+        <div class="card-jeu">
+            <img src="{{ url_for('static', filename='images/image_solo.jpg') }}">
+            <div class="card-content">
+                <h3>Mode Solo</h3>
+                <p>Affronte le mystère seul. Analyse les indices et trouve le personnage avec le moins de questions possible.</p>
+                <button class="btn" onclick="window.location.href='/jeu'">Commencer la partie</button>
+            </div>
+        </div>
+        <div class="card-jeu">
+            <img src="{{ url_for('static', filename='images/image_ordi_joueur.jpg') }}">
+            <div class="card-content">
+                <h3>Mode Duel</h3>
+                <p>Un véritable duel de sorciers t’attend ! Affronte ton adversaire et tente de découvrir son personnage. Si il découvre le tien avant que tu ne découvres le sien, la partie est perdue.</p>
+                <button class="btn" onclick="window.location.href='/jeu_duo'">Niveau Facile</button>
+                <button class="btn" onclick="window.location.href='/jeu_duo'">Niveau Difficile</button>
+            </div>
         </div>
     </div>
-</div>
 
-<h1>Qui est-ce ?</h1>
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
-
-<img src="https://media1.tenor.com/m/YEPii0Pgd-kAAAAC/sorting-hat.gif"
-     alt="Choixpeau magique"
-     style="width:60%; max-width:500px; margin-top:10px;">
-
-<button class="start-button" onclick="window.location.href='/jeu'">Partie Solo</button>
-
+<!--
 <div class="dropdown">
     <button class="start-button">Partie Duo</button>
     <div class="dropdown-content">
@@ -206,39 +55,6 @@
         <a href="/choisir_mode_duo?difficulty=hard">Difficile</a>
     </div>
 </div>
-
-<script>
-    window.addEventListener("load", () => {
-        document.getElementById("popupOverlay").style.display = "flex";
-    });
-
-    document.getElementById("popupCloseBtn").onclick = () => {
-        document.getElementById("popupOverlay").style.display = "none";
-    };
-
-    document.getElementById("popupOverlay").onclick = (e) => {
-        if (e.target.id === "popupOverlay") {
-            e.currentTarget.style.display = "none";
-        }
-    };
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            document.getElementById("popupOverlay").style.display = "none";
-        }
-    });
-</script>
-
-<footer>
-    <h3>Projet d’Infrastructures et systèmes logiciels</h3>
-    <ul>
-        <li>Leena Boyina</li>
-        <li>Ndoumbe Bayo</li>
-        <li>Tea Toscan du Plantier</li>
-        <li>Tania Admane</li>
-        <li>Soline Mignot</li>
-    </ul>
-</footer>
-
+-->
 </body>
 </html>

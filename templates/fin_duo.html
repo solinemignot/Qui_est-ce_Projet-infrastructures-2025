@@ -2,58 +2,11 @@
 <html lang="en">
 <head>
     <title>Fin du jeu</title>
-    <style>
-        body {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .result-images {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .image-block {
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .image-block img {
-            width: 120px;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 5px;
-            border: 5px solid transparent;
-        }
-
-        .correct img { border-color: green; }
-        .incorrect img { border-color: red; }
-
-        .restart-button {
-            background-color: #8B0000;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 150px;
-            max-width: 250px;
-            transition: background-color 0.3s ease;
-        }
-
-        .restart-button:hover {
-            background-color: #A52A2A;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
 </head>
 <body>
 
-<h1>{{ message }}</h1>
+<h3 class="message-resultat">{{ message }}</h3>
 
 {# === CAS 1 : incohérent (aucun personnage possible) === #}
 {% if resultat is none %}
@@ -61,30 +14,90 @@
 
 {# === CAS 2 : l'ordinateur gagne (resultat == False) === #}
 {% elif not resultat %}
-    <div class="result-images">
+<h3>L’ordinateur a deviné ton personnage que ton personnage était {{ computer_guess }} ! Tu devais deviner {{ secret }}.</h3>
+<!--<div class="result-images">
         <div class="image-block opponent-guess incorrect">
-            <h3>L’ordinateur a deviné ton personnage !</h3>
             <img src="{{ secret_image }}" alt="{{ computer_guess }}">
             <p>{{ computer_guess }}</p>
         </div>
 
         <div class="image-block player-secret correct">
-            <h3>Tu devais deviner :</h3>
             <img src="{{ personnages[secret] }}" alt="{{ secret }}">
             <p>{{ secret }}</p>
+        </div>
+    </div>
+-->
+<div class="result-images">
+        <div class="wrapper">
+            <div class="card">
+                <div class="front-page">
+                    <img src="{{ secret_image }}" alt="{{ computer_guess }}">
+                    <div class="card-info">
+                        <h2 class="card-title">{{ computer_guess }}</h2>
+                    </div>
+
+                </div>
+                <div class="back-page">
+                    <div class="card-content">
+                        <h2 class="card-title">{{ computer_guess }}"</h2>
+                        <p> {{ description_guess }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <div class="card">
+                <div class="front-page">
+                    <img src="{{ personnages[secret] }}" alt="{{ secret }}">
+                    <div class="card-info">
+                        <h2 class="card-title">{{ secret }}</h2>
+                    </div>
+                </div>
+                <div class="back-page">
+                    <div class="card-content">
+                        <h2 class="card-title">{{ secret }}</h2>
+                        <p> {{ description_secret }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 {# === CAS 3 : le joueur gagne (resultat == True) === #}
 {% else %}
+<!--
     <div class="image-block correct">
         <h3>Le bon personnage :</h3>
         <img src="{{ secret_image }}" alt="{{ secret }}">
         <p>{{ secret }}</p>
     </div>
+
+    -->
+
+<div class="wrapper" id="good-guess">
+            <div class="card">
+                <div class="front-page">
+                    <img src="{{ secret_image }}" alt="{{ secret }}">
+                    <div class="card-info">
+                        <h2 class="card-title">{{ secret }}</h2>
+                    </div>
+
+                </div>
+                <div class="back-page">
+                    <div class="card-content">
+                        <h2 class="card-title">{{ secret }}</h2>
+                        <p> {{ description_secret }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endif %}
 
-<button class="restart-button" onclick="window.location.href='/reset'">Nouvelle partie</button>
-
+<div class="restart-wrapper">
+        <button class="restart-button" onclick="window.location.href='/reset'">
+        Nouvelle partie
+        </button>
+</div>
 </body>
 </html>

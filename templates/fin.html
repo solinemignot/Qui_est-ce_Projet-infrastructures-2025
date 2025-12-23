@@ -1,60 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
     <title>Fin du jeu</title>
-    <style>
-        body { text-align: center ;
-                margin-top: 50px;
-                }
-
-        .result-images {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 30px;
-        }
-
-        .image-block img {
-            width: 150px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 5px solid transparent;
-        }
-
-        .correct img {
-            border-color: green;
-        }
-
-        .incorrect img {
-            border-color: red;
-        }
-
-        .image-block {
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .restart-button {
-            background-color: #8B0000; 
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 150px;
-            width: auto;         
-            max-width: 250px;
-            transition: background-color 0.3s ease;
-        }
-        .restart-button:hover {
-            background-color: #A52A2A;
-        }
-    </style>
 </head>
-<body>
+<body class="page-fin">
+    <h3 class="message-resultat">{{ message }}</h3>
+    {%if not resultat%}
+    <div class="result-images">
+        <div class="wrapper">
+            <div class="card">
+                <div class="front-page">
+                    <img src="{{ guessed_image }}" alt="{{ guess }}">
+                    <div class="card-info">
+                        <h2 class="card-title">{{ guess }}</h2>
+                    </div>
 
+                </div>
+                <div class="back-page">
+                    <div class="card-content">
+                        <h2 class="card-title">{{ guess }}</h2>
+                        <p> {{ description_guess }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <div class="card">
+                <div class="front-page">
+                    <img src="{{ secret_image }}" alt="{{ secret }}">
+                    <div class="card-info">
+                        <h2 class="card-title">{{ secret }}</h2>
+                    </div>
+                </div>
+                <div class="back-page">
+                    <div class="card-content">
+                        <h2 class="card-title">{{ secret }}</h2>
+                        <p> {{ description_secret }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%else%}
+        <div class="wrapper" id="good-guess">
+            <div class="card">
+                <div class="front-page">
+                    <img src="{{ secret_image }}" alt="{{ secret }}">
+                    <div class="card-info">
+                        <h2 class="card-title">{{ secret }}</h2>
+                    </div>
+
+                </div>
+                <div class="back-page">
+                    <div class="card-content">
+                        <h2 class="card-title">{{ secret }}</h2>
+                        <p> {{ description_secret }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%endif%}
+    <div class="restart-wrapper">
+        <button class="restart-button" onclick="window.location.href='/reset'">
+        Nouvelle partie
+        </button>
+    </div>
+<!--
     <h1>{{ message }}</h1>
     {%if not resultat%}
         <div class="result-images">
@@ -83,6 +96,6 @@
     <button class="restart-button" onclick="window.location.href='/reset'">
         Nouvelle partie
     </button>
-
+-->
 </body>
 </html>

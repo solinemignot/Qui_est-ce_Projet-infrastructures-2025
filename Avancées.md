@@ -59,3 +59,9 @@ j'ai modifié la partie solo + duo pour que le joueur grise lui meme les cartes.
 ameliorations : 
 - rendre le tout jolie
 - pour la partie difficile faire un arbre qui apprend au fur et a mesure des parties ? 
+
+23/12 : avancées Ndoumbé
+
+J'ai changé toute la structure visuelle de la page d'accueil. Pour la page de résultat, j'ai aussi changé le visuel et j'ai rajouté des flip cards avec les descriptions des persos. J'ai pas encore stylisé la page de jeu et jeu_duo.
+
+J'ai dû changer le construction.py, perso.py et le perso.caract.py aussi du coup comme j'ai ajouté une clef description. J'ai rédigé le READ ME aussi qu'il faudra remplir/modifier en fonction de nos avancées.
