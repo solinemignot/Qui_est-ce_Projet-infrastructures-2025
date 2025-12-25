@@ -25,9 +25,10 @@
     </p>
 
 
-    {% if elapsed is defined %}
-        {% set minutes = elapsed // 60 %}
-        {% set secondes = elapsed % 60 %}
+    {% if elapsed_seconds is defined %}
+        {% set minutes = elapsed_seconds // 60 %}
+        {% set secondes = elapsed_seconds % 60 %}
+
         <div class="timer-fin">
             ⏱ Temps de résolution :
             <strong>{{ minutes }} min {{ secondes }} s</strong>
