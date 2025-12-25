@@ -6,63 +6,69 @@
 </head>
 
 <body class="page-jeu">
-<nav class="liens_menu" id="liens_menu">
-			<a href="{{ url_for('accueil') }}" class="logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
-            </a>
-			<ul>
-        		<li class="menu-items"><a href="">Mode Solo</a></li>
-                <li class="menu-items"><a href="">Mode Duel</a></li>
-
-			</ul>
-    </nav>
     <header class="header_jeu">
         <div class="header_text appear">
             <h1 >Mode Solo</h1>
             <h4>La magie est dans les détails… sauras-tu percer le mystère ?</h4>
         </div>
     </header>
-
-    <h1>La salle des portraits est ouverte.</h1>
+    <div class="home-wrapper">
+    <button class="home-button" onclick="window.location.href='{{ url_for('accueil') }}'">Retour à l’accueil</button>
+    </div>
+    <h1 class="title-jeu">La salle des portraits est ouverte.</h1>
     <h3>Ton objectif : identifier le bon personnage parmi tous ceux présents ici. Analyse chaque détail, élimine les suspects et mène ton enquête avec précision. Le mystère ne résistera pas longtemps à un bon détective !</h3>
-
-    <div class="grille">
+<div class="jeu-container">
+    <div class="zone-grille">
+        <div class="grille">
         {% for nom, image in personnages.items() %}
             <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
                 <img src="{{ image }}" alt="{{ nom }}">
                 <p>{{ nom }}</p>
             </div>
         {% endfor %}
+        </div>
+        <h3>Relancer une enquête</h3>
+        <div class="restart-wrapper">
+        <button class="restart-button" onclick="window.location.href='/reset'">
+        Nouvelle partie
+        </button>
     </div>
+    </div>
+    <div class="zone-questions" id="zone-questions">
+        <div class="zone-question-perso">
+            <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
+            <p> Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
+        <h2>Posez une question</h2>
+        <form method="POST" action="/jeu#zone-questions">
+            <select name="question" class="question" required style="width: 200px;">
+            <option value="">Choisir une question</option>
 
-    <h2>Posez une question :</h2>
-
-    <form method="POST" action="/jeu">
-        <select name="question" required style="width: 200px;">
-            <option value="">-- Choisir une question --</option>
-
-            {% for q in questions %}
+                {% for q in questions %}
                 {% set i = loop.index0 %}
                 <option value="{{ i }}" {% if i in asked_questions %}disabled style="color: grey;"{% endif %}>
                     {{ q.question }}
                 </option>
             {% endfor %}
-        </select>
+            </select>
 
-        <button type="submit" style="width: 200px;">Poser la question</button>
-    </form>
+            <button type="submit" style="width: 200px;">Poser la question</button>
+        </form>
 
     {% if reponse %}
         <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
             {{ reponse }}
         </div>
     {% endif %}
+        </div>
 
-    <h2>Devinez un personnage:</h2>
+        <div class="zone-guess">
+            <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
+
+    <h2>Révélez le coupable</h2>
 
     <form method="POST" action="/jeu">
-        <select name="guess" required style="width: 200px;">
-            <option value="">-- Choisir un personnage --</option>
+        <select name="guess" class="guess" required style="width: 200px;">
+            <option value="">Choisissez un personnage</option>
 
             {% for nom in personnages.keys() %}
                 {% if nom not in elimines %}
@@ -71,8 +77,11 @@
             {% endfor %}
         </select>
 
-        <button type="submit" style="width: 200px;">Deviner le personnage</button>
+        <button type="submit" style="width: 200px;">Valider mon choix</button>
     </form>
+    </div>
+</div>
+</div>
 
     <script>
       document.querySelectorAll('.carte').forEach(card => {

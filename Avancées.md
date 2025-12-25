@@ -65,3 +65,9 @@ ameliorations :
 J'ai changé toute la structure visuelle de la page d'accueil. Pour la page de résultat, j'ai aussi changé le visuel et j'ai rajouté des flip cards avec les descriptions des persos. J'ai pas encore stylisé la page de jeu et jeu_duo.
 
 J'ai dû changer le construction.py, perso.py et le perso.caract.py aussi du coup comme j'ai ajouté une clef description. J'ai rédigé le READ ME aussi qu'il faudra remplir/modifier en fonction de nos avancées.
+
+25/12 : avancées Ndoumbé
+
+J'ai continué l'amélioration des pages jeu. Il faut encore que je change le style des questions déroulantes du select. J'ai pas réussi à fixer mon nav donc pour l'instant j'ai rajouté un bouton "retour à l'accueil". J'ai aussi mis un bouton "reset" si le joueur veut recommencer.
+
+Pour l'instant, le READ ME c'est un brouillon pour nous mais faudra le documenter quand on aura fini.

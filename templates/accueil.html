@@ -10,8 +10,8 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
             </a>
 			<ul>
-        		<li class="menu-items"><a href="">Mode Solo</a></li>
-                <li class="menu-items"><a href="">Mode Duel</a></li>
+        		<li class="menu-items"><a href="{{ url_for('jeu') }}">Mode Solo</a></li>
+                <li class="menu-items"><a href="{{ url_for('jeu_duo') }}">Mode Duel</a></li>
 
 			</ul>
     </nav>
@@ -41,8 +41,8 @@
             <div class="card-content">
                 <h3>Mode Duel</h3>
                 <p>Un véritable duel de sorciers t’attend ! Affronte ton adversaire et tente de découvrir son personnage. Si il découvre le tien avant que tu ne découvres le sien, la partie est perdue.</p>
-                <button class="btn" onclick="window.location.href='/jeu_duo'">Niveau Facile</button>
-                <button class="btn" onclick="window.location.href='/jeu_duo'">Niveau Difficile</button>
+                <button class="btn" onclick="window.location.href='/choisir_mode_duo?difficulty=easy'">Niveau Facile</button>
+                <button class="btn" onclick="window.location.href='/choisir_mode_duo?difficulty=hard'">Niveau Difficile</button>
             </div>
         </div>
     </div>

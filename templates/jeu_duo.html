@@ -6,16 +6,6 @@
 </head>
 
 <body class="page-jeu-duo">
-<nav class="liens_menu" id="liens_menu">
-			<a href="{{ url_for('accueil') }}" class="logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
-            </a>
-			<ul>
-        		<li class="menu-items"><a href="">Mode Solo</a></li>
-                <li class="menu-items"><a href="">Mode Duel</a></li>
-
-			</ul>
-    </nav>
     <header class="header_jeu_duo">
         <div class="header_text appear">
             <h1 >Mode Duel</h1>
@@ -23,11 +13,15 @@
         </div>
     </header>
 
-    <h1>La salle des portraits est ouverte.</h1>
+    <div class="home-wrapper">
+    <button class="home-button" onclick="window.location.href='{{ url_for('accueil') }}'">Retour à l’accueil</button>
+    </div>
+
+    <h1 class="title-jeu">La salle des portraits est ouverte.</h1>
     <h3>Ton objectif : identifier le bon personnage parmi tous ceux présents ici. Analyse chaque détail, élimine les suspects et mène ton enquête avec précision. Le mystère ne résistera pas longtemps à un bon détective !</h3>
-
-
-<div class="grille">
+<div class="jeu-container">
+<div class="zone-grille">
+<div class="grille" id="grille">
     {% for nom, image in personnages.items() %}
         <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
             <img src="{{ image }}" alt="{{ nom }}">
@@ -35,12 +29,32 @@
         </div>
     {% endfor %}
 </div>
-
+    <h3>Relancer une enquête</h3>
+        <div class="restart-wrapper">
+        <button class="restart-button" onclick="window.location.href='/reset'">
+        Nouvelle partie
+        </button>
+    </div>
+</div>
+<div class="zone-questions" id="zone-questions">
+    <div class="grille-mini-container">
+            <h3>Grille de votre adversaire</h3>
+    <div class="grille-mini">
+        {% for nom, image in personnages.items() %}
+            <div class="carte-mini {% if nom not in restants_opponent %}eliminee{% endif %}">
+                <img src="{{ image }}" alt="{{ nom }}">
+            </div>
+        {% endfor %}
+    </div>
+</div>
+        <div class="zone-question-perso">
+            <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
+            <p> Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
 <h2>Posez une question :</h2>
 
-<form method="POST" action="/jeu_duo">
+<form method="POST" action="/jeu_duo#zone-questions">
     <select name="question" required style="width:200px;">
-        <option value="">-- Choisir une question --</option>
+        <option value="">Choisir une question</option>
         {% for q in questions %}
             {% set i = loop.index0 %}
             <option value="{{ i }}" {% if i in asked_questions %}disabled{% endif %}>
@@ -57,12 +71,14 @@
         {{ reponse }}
     </div>
 {% endif %}
-
-<h2>Devinez un personnage :</h2>
+        </div>
+    <div class="zone-guess">
+        <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
+<h2>Révélez le coupable</h2>
 
 <form method="POST" action="/jeu_duo">
     <select name="guess" required style="width:200px;">
-        <option value="">-- Choisir un personnage --</option>
+        <option value="">Choisir un personnage</option>
         {% for nom in personnages.keys() %}
             {% if nom not in elimines %}
                 <option value="{{ nom }}">{{ nom }}</option>
@@ -78,7 +94,7 @@
     <div class="modal-content">
         <h3>L’ordinateur demande :</h3>
         <p>{{ questions[opponent_question_idx].question }}</p>
-        <form method="POST" action="/jeu_duo">
+        <form method="POST" action="/jeu_duo#grille">
             <button name="answer_opponent" value="Oui" class="opponent-button">Oui</button>
             <button name="answer_opponent" value="Non" class="opponent-button no">Non</button>
         </form>
@@ -86,18 +102,11 @@
 </div>
 {% endif %}
 
-<!-- ===== MINI-GRILLE ORDI ===== -->
-<div class="grille-mini-container">
-    <div class="grille-mini">
-        {% for nom, image in personnages.items() %}
-            <div class="carte-mini {% if nom not in restants_opponent %}eliminee{% endif %}">
-                <img src="{{ image }}" alt="{{ nom }}">
-            </div>
-        {% endfor %}
     </div>
 </div>
+</div>
 
-<!-- ===== GRISAGE MANUEL ===== -->
+
 <script>
 document.querySelectorAll('.carte').forEach(card => {
     card.addEventListener('click', async () => {

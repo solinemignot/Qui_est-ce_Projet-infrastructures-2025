@@ -10,7 +10,7 @@ app.secret_key = "secret123"
 
 @app.route('/')
 def accueil():
-    session.clear() #We can remove if we don't want to reset everytiem we go back to the home page
+    session.clear() #We can remove if we don't want to reset everytime we go back to the home page
     return render_template('accueil.html')
 
 # Mode SOLO
