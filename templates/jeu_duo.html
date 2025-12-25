@@ -8,114 +8,137 @@
 <body class="page-jeu-duo">
     <header class="header_jeu_duo">
         <div class="header_text appear">
-            <h1 >Mode Duel</h1>
+            <h1>Mode Duel</h1>
             <h4>La magie est dans les détails… sauras-tu percer le mystère ?</h4>
         </div>
     </header>
 
     <div class="home-wrapper">
-    <button class="home-button" onclick="window.location.href='{{ url_for('accueil') }}'">Retour à l’accueil</button>
+        <button class="home-button" onclick="window.location.href='{{ url_for('accueil') }}'">Retour à l’accueil</button>
     </div>
 
     <h1 class="title-jeu">La salle des portraits est ouverte.</h1>
-    <h3>Ton objectif : identifier le bon personnage parmi tous ceux présents ici. Analyse chaque détail, élimine les suspects et mène ton enquête avec précision. Le mystère ne résistera pas longtemps à un bon détective !</h3>
-<div class="jeu-container">
-<div class="zone-grille">
-<div class="grille" id="grille">
-    {% for nom, image in personnages.items() %}
-        <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
-            <img src="{{ image }}" alt="{{ nom }}">
-            <p>{{ nom }}</p>
-        </div>
-    {% endfor %}
-</div>
-    <h3>Relancer une enquête</h3>
-        <div class="restart-wrapper">
-        <button class="restart-button" onclick="window.location.href='/reset'">
-        Nouvelle partie
-        </button>
-    </div>
-</div>
-<div class="zone-questions" id="zone-questions">
-    <div class="grille-mini-container">
-            <h3>Grille de votre adversaire</h3>
-    <div class="grille-mini">
-        {% for nom, image in personnages.items() %}
-            <div class="carte-mini {% if nom not in restants_opponent %}eliminee{% endif %}">
-                <img src="{{ image }}" alt="{{ nom }}">
+    <h3>
+        Ton objectif : identifier le bon personnage parmi tous ceux présents ici. Analyse chaque détail, élimine les suspects et mène ton enquête avec précision.
+        Le mystère ne résistera pas longtemps à un bon détective !
+    </h3>
+
+    <div class="jeu-container">
+        <div class="zone-grille">
+            <div class="grille" id="grille">
+                {% for nom, image in personnages.items() %}
+                    <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
+                        <img src="{{ image }}" alt="{{ nom }}">
+                        <p>{{ nom }}</p>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
-</div>
-        <div class="zone-question-perso">
-            <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
-            <p> Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
-<h2>Posez une question :</h2>
 
-<form method="POST" action="/jeu_duo#zone-questions">
-    <select name="question" required style="width:200px;">
-        <option value="">Choisir une question</option>
-        {% for q in questions %}
-            {% set i = loop.index0 %}
-            <option value="{{ i }}" {% if i in asked_questions %}disabled{% endif %}>
-                {{ q.question }}
-            </option>
-        {% endfor %}
-    </select>
-    <br><br>
-    <button type="submit">Poser la question</button>
-</form>
-
-{% if reponse %}
-    <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
-        {{ reponse }}
-    </div>
-{% endif %}
+            <h3>Relancer une enquête</h3>
+            <div class="restart-wrapper">
+                <button class="restart-button" onclick="window.location.href='/reset'">
+                    Nouvelle partie
+                </button>
+            </div>
         </div>
-    <div class="zone-guess">
-        <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
-<h2>Révélez le coupable</h2>
 
-<form method="POST" action="/jeu_duo">
-    <select name="guess" required style="width:200px;">
-        <option value="">Choisir un personnage</option>
-        {% for nom in personnages.keys() %}
-            {% if nom not in elimines %}
-                <option value="{{ nom }}">{{ nom }}</option>
-            {% endif %}
-        {% endfor %}
-    </select>
-    <br><br>
-    <button type="submit">Deviner</button>
-</form>
+        <div class="zone-questions" id="zone-questions">
 
-{% if opponent_question_idx is not none %}
-<div class="modal">
-    <div class="modal-content">
-        <h3>L’ordinateur demande :</h3>
-        <p>{{ questions[opponent_question_idx].question }}</p>
-        <form method="POST" action="/jeu_duo#grille">
-            <button name="answer_opponent" value="Oui" class="opponent-button">Oui</button>
-            <button name="answer_opponent" value="Non" class="opponent-button no">Non</button>
-        </form>
+            <div class="grille-mini-container">
+                <h3>Grille de votre adversaire</h3>
+                <div class="grille-mini">
+                    {% for nom, image in personnages.items() %}
+                        <div class="carte-mini {% if nom not in restants_opponent %}eliminee{% endif %}">
+                            <img src="{{ image }}" alt="{{ nom }}">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="zone-question-perso">
+                <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
+                <p>Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
+                <p>Une fois que vous avez grisé les personnages concernés, cliquez sur "Tour de l’ordinateur" pour que l’ordinateur pose une question.</p>
+
+                <h2>Posez une question :</h2>
+
+                <form method="POST" action="/jeu_duo#zone-questions">
+                    <select name="question" required style="width:200px;"
+                            {% if awaiting_computer %}disabled{% endif %}>
+                        <option value="">Choisir une question</option>
+                        {% for q in questions %}
+                            {% set i = loop.index0 %}
+                            <option value="{{ i }}" {% if i in asked_questions %}disabled{% endif %}>
+                                {{ q.question }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <br><br>
+                    <button type="submit" {% if awaiting_computer %}disabled{% endif %}>Poser la question</button>
+                </form>
+
+                {% if reponse %}
+                    <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
+                        {{ reponse }}
+                    </div>
+                {% endif %}
+
+                <!--bouton pour lancer le tour de l'ordi apres avoir grisé -->
+                {% if awaiting_computer %}
+                    <form method="POST" action="/jeu_duo#zone-questions" style="margin-top: 15px;">
+                        <button type="submit" name="next_turn" value="1" class="restart-button">
+                            Tour de l’ordinateur
+                        </button>
+                    </form>
+                {% endif %}
+
+            </div>
+
+            <div class="zone-guess">
+                <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
+                <h2>Révélez le coupable</h2>
+
+                <form method="POST" action="/jeu_duo">
+                    <select name="guess" required style="width:200px;"
+                            {% if awaiting_computer %}disabled{% endif %}>
+                        <option value="">Choisir un personnage</option>
+                        {% for nom in personnages.keys() %}
+                            {% if nom not in elimines %}
+                                <option value="{{ nom }}">{{ nom }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <br><br>
+                    <button type="submit" {% if awaiting_computer %}disabled{% endif %}>Deviner</button>
+                </form>
+
+                {% if opponent_question_idx is not none %}
+                <div class="modal">
+                    <div class="modal-content">
+                        <h3>L’ordinateur demande :</h3>
+                        <p>{{ questions[opponent_question_idx].question }}</p>
+                        <form method="POST" action="/jeu_duo#grille">
+                            <button name="answer_opponent" value="Oui" class="opponent-button">Oui</button>
+                            <button name="answer_opponent" value="Non" class="opponent-button no">Non</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
     </div>
-</div>
-{% endif %}
 
-    </div>
-</div>
-</div>
-
-
-<script>
-document.querySelectorAll('.carte').forEach(card => {
-    card.addEventListener('click', async () => {
-        const nom = card.dataset.nom;
-        await fetch(`/toggle_elimine_duo/${encodeURIComponent(nom)}`, { method: 'POST' });
-        card.classList.toggle('eliminee');
+    <script>
+    document.querySelectorAll('.carte').forEach(card => {
+        card.addEventListener('click', async () => {
+            const nom = card.dataset.nom;
+            await fetch(`/toggle_elimine_duo/${encodeURIComponent(nom)}`, { method: 'POST' });
+            card.classList.toggle('eliminee');
+        });
     });
-});
-</script>
+    </script>
 
 </body>
 </html>

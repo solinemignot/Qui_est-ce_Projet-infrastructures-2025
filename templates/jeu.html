@@ -1,100 +1,163 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta charset="UTF-8">
     <title>Harry Potter</title>
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
+
+    <style>
+        /* Timer en haut à droite */
+        .timer-box {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 2000;
+            min-width: 110px;
+            text-align: center;
+        }
+        .timer-label {
+            font-size: 12px;
+            font-weight: normal;
+            opacity: 0.85;
+            margin-bottom: 4px;
+        }
+        .timer-value {
+            font-family: monospace;
+            font-size: 20px;
+        }
+    </style>
 </head>
 
 <body class="page-jeu">
+
+
+    <div class="timer-box">
+        <div class="timer-label">Temps</div>
+        <div class="timer-value" id="timer">00:00</div>
+    </div>
+
     <header class="header_jeu">
         <div class="header_text appear">
-            <h1 >Mode Solo</h1>
+            <h1>Mode Solo</h1>
             <h4>La magie est dans les détails… sauras-tu percer le mystère ?</h4>
         </div>
     </header>
+
     <div class="home-wrapper">
-    <button class="home-button" onclick="window.location.href='{{ url_for('accueil') }}'">Retour à l’accueil</button>
-    </div>
-    <h1 class="title-jeu">La salle des portraits est ouverte.</h1>
-    <h3>Ton objectif : identifier le bon personnage parmi tous ceux présents ici. Analyse chaque détail, élimine les suspects et mène ton enquête avec précision. Le mystère ne résistera pas longtemps à un bon détective !</h3>
-<div class="jeu-container">
-    <div class="zone-grille">
-        <div class="grille">
-        {% for nom, image in personnages.items() %}
-            <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
-                <img src="{{ image }}" alt="{{ nom }}">
-                <p>{{ nom }}</p>
-            </div>
-        {% endfor %}
-        </div>
-        <h3>Relancer une enquête</h3>
-        <div class="restart-wrapper">
-        <button class="restart-button" onclick="window.location.href='/reset'">
-        Nouvelle partie
+        <button class="home-button" onclick="window.location.href='{{ url_for('accueil') }}'">
+            Retour à l’accueil
         </button>
     </div>
-    </div>
-    <div class="zone-questions" id="zone-questions">
-        <div class="zone-question-perso">
-            <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
-            <p> Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
-        <h2>Posez une question</h2>
-        <form method="POST" action="/jeu#zone-questions">
-            <select name="question" class="question" required style="width: 200px;">
-            <option value="">Choisir une question</option>
 
-                {% for q in questions %}
-                {% set i = loop.index0 %}
-                <option value="{{ i }}" {% if i in asked_questions %}disabled style="color: grey;"{% endif %}>
-                    {{ q.question }}
-                </option>
-            {% endfor %}
-            </select>
+    <h1 class="title-jeu">La salle des portraits est ouverte.</h1>
+    <h3>
+        Ton objectif : identifier le bon personnage parmi tous ceux présents ici. Analyse chaque détail,
+        élimine les suspects et mène ton enquête avec précision. Le mystère ne résistera pas longtemps à un bon détective !
+    </h3>
 
-            <button type="submit" style="width: 200px;">Poser la question</button>
-        </form>
+    <div class="jeu-container">
+        <div class="zone-grille">
+            <div class="grille">
+                {% for nom, image in personnages.items() %}
+                    <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
+                        <img src="{{ image }}" alt="{{ nom }}">
+                        <p>{{ nom }}</p>
+                    </div>
+                {% endfor %}
+            </div>
 
-    {% if reponse %}
-        <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
-            {{ reponse }}
-        </div>
-    {% endif %}
+            <h3>Relancer une enquête</h3>
+            <div class="restart-wrapper">
+                <button class="restart-button" onclick="window.location.href='/reset'">
+                    Nouvelle partie
+                </button>
+            </div>
         </div>
 
-        <div class="zone-guess">
-            <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
+        <div class="zone-questions" id="zone-questions">
+            <div class="zone-question-perso">
+                <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
+                <p>Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
 
-    <h2>Révélez le coupable</h2>
+                <h2>Posez une question</h2>
+                <form method="POST" action="/jeu#zone-questions">
+                    <select name="question" class="question" required style="width: 200px;">
+                        <option value="">Choisir une question</option>
+                        {% for q in questions %}
+                            {% set i = loop.index0 %}
+                            <option value="{{ i }}" {% if i in asked_questions %}disabled style="color: grey;"{% endif %}>
+                                {{ q.question }}
+                            </option>
+                        {% endfor %}
+                    </select>
 
-    <form method="POST" action="/jeu">
-        <select name="guess" class="guess" required style="width: 200px;">
-            <option value="">Choisissez un personnage</option>
+                    <button type="submit" style="width: 200px;">Poser la question</button>
+                </form>
 
-            {% for nom in personnages.keys() %}
-                {% if nom not in elimines %}
-                    <option value="{{ nom }}">{{ nom }}</option>
+                {% if reponse %}
+                    <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
+                        {{ reponse }}
+                    </div>
                 {% endif %}
-            {% endfor %}
-        </select>
+            </div>
 
-        <button type="submit" style="width: 200px;">Valider mon choix</button>
-    </form>
+            <div class="zone-guess">
+                <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
+
+                <h2>Révélez le coupable</h2>
+
+                <form method="POST" action="/jeu">
+                    <select name="guess" class="guess" required style="width: 200px;">
+                        <option value="">Choisissez un personnage</option>
+                        {% for nom in personnages.keys() %}
+                            {% if nom not in elimines %}
+                                <option value="{{ nom }}">{{ nom }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit" style="width: 200px;">Valider mon choix</button>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
-</div>
 
     <script>
+      // grisage manuel
       document.querySelectorAll('.carte').forEach(card => {
         card.addEventListener('click', async () => {
           const nom = card.dataset.nom;
-
-          await fetch(`/toggle_elimine/${encodeURIComponent(nom)}`, {
-            method: 'POST'
-          });
-
+          await fetch(`/toggle_elimine/${encodeURIComponent(nom)}`, { method: 'POST' });
           card.classList.toggle('eliminee');
         });
       });
+
+      //timer
+      const startTime = {{ start_time|default(0)|int }};
+      const timerEl = document.getElementById("timer");
+
+      function formatTime(seconds) {
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+      }
+
+      function tick() {
+        if (!startTime) return;
+        const now = Math.floor(Date.now() / 1000);
+        const elapsed = Math.max(0, now - startTime);
+        timerEl.textContent = formatTime(elapsed);
+      }
+
+      tick();
+      setInterval(tick, 1000);
     </script>
+
 </body>
 </html>

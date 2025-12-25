@@ -1,13 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
     <title>Fin du jeu</title>
 </head>
+
 <body class="page-fin">
-    <h3 class="message-resultat">{{ message }}</h3>
-    {%if not resultat%}
+
+ 
+    <h2 class="message-resultat">
+        {% if resultat %}
+            Victoire !
+        {% else %}
+            Dommage…
+        {% endif %}
+    </h2>
+
+    <p class="message-resultat">
+        {% if resultat %}
+            Tu as deviné <strong>{{ secret }}</strong>.
+        {% else %}
+            Tu as choisi <strong>{{ guess }}</strong>, mais c’était <strong>{{ secret }}</strong>.
+        {% endif %}
+    </p>
+
+
+    {% if elapsed is defined %}
+        {% set minutes = elapsed // 60 %}
+        {% set secondes = elapsed % 60 %}
+        <div class="timer-fin">
+            ⏱ Temps de résolution :
+            <strong>{{ minutes }} min {{ secondes }} s</strong>
+        </div>
+    {% endif %}
+
+
+    {% if not resultat %}
     <div class="result-images">
+
         <div class="wrapper">
             <div class="card">
                 <div class="front-page">
@@ -15,12 +45,11 @@
                     <div class="card-info">
                         <h2 class="card-title">{{ guess }}</h2>
                     </div>
-
                 </div>
                 <div class="back-page">
                     <div class="card-content">
                         <h2 class="card-title">{{ guess }}</h2>
-                        <p> {{ description_guess }}</p>
+                        <p>{{ description_guess }}</p>
                     </div>
                 </div>
             </div>
@@ -37,65 +66,37 @@
                 <div class="back-page">
                     <div class="card-content">
                         <h2 class="card-title">{{ secret }}</h2>
-                        <p> {{ description_secret }}</p>
+                        <p>{{ description_secret }}</p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% else %}
+    <div class="wrapper" id="good-guess">
+        <div class="card">
+            <div class="front-page">
+                <img src="{{ secret_image }}" alt="{{ secret }}">
+                <div class="card-info">
+                    <h2 class="card-title">{{ secret }}</h2>
+                </div>
+            </div>
+            <div class="back-page">
+                <div class="card-content">
+                    <h2 class="card-title">{{ secret }}</h2>
+                    <p>{{ description_secret }}</p>
                 </div>
             </div>
         </div>
     </div>
-    {%else%}
-        <div class="wrapper" id="good-guess">
-            <div class="card">
-                <div class="front-page">
-                    <img src="{{ secret_image }}" alt="{{ secret }}">
-                    <div class="card-info">
-                        <h2 class="card-title">{{ secret }}</h2>
-                    </div>
+    {% endif %}
 
-                </div>
-                <div class="back-page">
-                    <div class="card-content">
-                        <h2 class="card-title">{{ secret }}</h2>
-                        <p> {{ description_secret }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {%endif%}
     <div class="restart-wrapper">
         <button class="restart-button" onclick="window.location.href='/reset'">
-        Nouvelle partie
+            Nouvelle partie
         </button>
     </div>
-<!--
-    <h1>{{ message }}</h1>
-    {%if not resultat%}
-        <div class="result-images">
-    
-            <div class="image-block incorrect">
-                <h3>Tu as choisi :</h3>
-                <img src="{{ guessed_image }}" alt="{{ guess }}">
-                <p>{{ guess }}</p>
-            </div>
-    
-            <div class="image-block correct">
-                <h3>Le bon personnage :</h3>
-                <img src="{{ secret_image }}" alt="{{ secret }}">
-                <p>{{ secret }}</p>
-            </div>
-    
-        </div>
-    {%else%}
-        <div class = "image-block correct">
-            <h3>Le bon personnage :</h3>
-            <img src="{{ secret_image }}" alt="{{ secret }}">
-            <p>{{ secret }}</p>
-        </div>
-    {%endif%}
 
-    <button class="restart-button" onclick="window.location.href='/reset'">
-        Nouvelle partie
-    </button>
--->
 </body>
 </html>

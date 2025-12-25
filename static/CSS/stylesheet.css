@@ -616,3 +616,21 @@ justify-content: center;
   display: flex;
   justify-content: center;
 }
+.timer-fin {
+    margin: 30px auto;
+    font-size: 20px;
+    text-align: center;
+    color: #4b2e2e;
+    background: rgba(255, 248, 235, 0.9);
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 14px;
+    font-weight: 500;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    border: 1px solid rgba(139, 0, 0, 0.25);
+    font-family: 'Playfair Display', serif;
+}
+body.page-fin {
+    text-align: center;
+}
+
