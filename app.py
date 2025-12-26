@@ -22,7 +22,7 @@ def accueil():
 @app.route('/jeu', methods=['GET', 'POST'])
 def jeu():
     session["mode"] = "solo"
-
+    descriptions = {p.nom: p.description for p in liste_personnages}
     if "elimines" not in session:
         session["elimines"] = []
 
@@ -91,6 +91,7 @@ def jeu():
     return render_template(
         "jeu.html",
         personnages=personnages,
+        descriptions=descriptions,
         elimines=session["elimines"],
         reponse=reponse,
         questions=liste_questions,

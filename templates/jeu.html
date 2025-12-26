@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Harry Potter</title>
+    <title>Harry Potter - Mode Solo</title>
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
 
     <style>
@@ -36,7 +36,6 @@
 
 <body class="page-jeu">
 
-
     <div class="timer-box">
         <div class="timer-label">Temps</div>
         <div class="timer-value" id="timer">00:00</div>
@@ -65,7 +64,11 @@
         <div class="zone-grille">
             <div class="grille">
                 {% for nom, image in personnages.items() %}
-                    <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
+                    <div class="carte {% if nom in elimines %}eliminee{% endif %}" 
+                        data-nom="{{ nom }}"
+                        data-image="{{ image }}"
+                        data-description="{{ descriptions[nom] }}"> 
+                        
                         <img src="{{ image }}" alt="{{ nom }}">
                         <p>{{ nom }}</p>
                     </div>
@@ -128,35 +131,75 @@
         </div>
     </div>
 
+    <div id="info-modal" class="modal-info">
+        <div class="modal-info-content">
+            <span class="close-modal">&times;</span>
+            <img id="modal-img" src="" alt="">
+            <h2 id="modal-title">Nom</h2>
+            <p id="modal-desc">Description...</p>
+        </div>
+    </div>
+
     <script>
-      // grisage manuel
-      document.querySelectorAll('.carte').forEach(card => {
-        card.addEventListener('click', async () => {
-          const nom = card.dataset.nom;
-          await fetch(`/toggle_elimine/${encodeURIComponent(nom)}`, { method: 'POST' });
-          card.classList.toggle('eliminee');
+        // --- 1. ÉLÉMENTS DE LA FENÊTRE ---
+        const modal = document.getElementById("info-modal");
+        const modalImg = document.getElementById("modal-img");
+        const modalTitle = document.getElementById("modal-title");
+        const modalDesc = document.getElementById("modal-desc");
+        const closeBtn = document.querySelector(".close-modal");
+
+        // --- 2. GESTION DES CARTES ---
+        document.querySelectorAll('.carte').forEach(card => {
+            
+            // A. CLIC GAUCHE : ÉLIMINER (Griser)
+            card.addEventListener('click', async () => {
+                const nom = card.dataset.nom;
+                // Note : URL Solo '/toggle_elimine'
+                await fetch(`/toggle_elimine/${encodeURIComponent(nom)}`, { method: 'POST' });
+                card.classList.toggle('eliminee');
+            });
+
+            // B. CLIC DROIT : VOIR DESCRIPTION
+            card.addEventListener('contextmenu', function(e) {
+                e.preventDefault(); // Bloque le menu normal du navigateur
+
+                // Remplir la fenêtre
+                modalTitle.textContent = this.dataset.nom;
+                modalDesc.textContent = this.dataset.description;
+                modalImg.src = this.dataset.image;
+
+                // Afficher la fenêtre
+                modal.style.display = "block";
+            });
         });
-      });
 
-      //timer
-      const startTime = {{ start_time|default(0)|int }};
-      const timerEl = document.getElementById("timer");
+        // --- 3. FERMETURE DE LA FENÊTRE ---
+        if (closeBtn) {
+            closeBtn.onclick = function() { modal.style.display = "none"; }
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) { modal.style.display = "none"; }
+        }
 
-      function formatTime(seconds) {
-        const m = Math.floor(seconds / 60);
-        const s = Math.floor(seconds % 60);
-        return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
-      }
+        // --- 4. LE TIMER ---
+        const startTime = {{ start_time|default(0)|int }};
+        const timerEl = document.getElementById("timer");
 
-      function tick() {
-        if (!startTime) return;
-        const now = Math.floor(Date.now() / 1000);
-        const elapsed = Math.max(0, now - startTime);
-        timerEl.textContent = formatTime(elapsed);
-      }
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+        }
 
-      tick();
-      setInterval(tick, 1000);
+        function tick() {
+            if (!startTime) return;
+            const now = Math.floor(Date.now() / 1000);
+            const elapsed = Math.max(0, now - startTime);
+            if(timerEl) timerEl.textContent = formatTime(elapsed);
+        }
+
+        tick();
+        setInterval(tick, 1000);
     </script>
 
 </body>
