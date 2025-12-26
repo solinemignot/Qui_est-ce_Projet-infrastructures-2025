@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Harry Potter</title>
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
@@ -27,31 +28,64 @@
         <div class="zone-grille">
             <div class="grille" id="grille">
                 {% for nom, image in personnages.items() %}
-                    <div class="carte {% if nom in elimines %}eliminee{% endif %}" data-nom="{{ nom }}">
+                    <div class="carte {% if nom in elimines %}eliminee{% endif %}" 
+                        data-nom="{{ nom }}"
+                        data-image="{{ image }}"
+                        
+                        {# On ajoute la description SEULEMENT si on est en mode facile #}
+                        {% if session.get('duo_difficulty') == 'easy' %}
+                            data-description="{{ descriptions[nom] }}"
+                        {% endif %}
+                        >
+                        
                         <img src="{{ image }}" alt="{{ nom }}">
                         <p>{{ nom }}</p>
                     </div>
                 {% endfor %}
             </div>
 
-            <h3>Relancer une enquête</h3>
+            <h3>Abandonner la partie</h3>
             <div class="restart-wrapper">
-                <button class="restart-button" onclick="window.location.href='/reset'">
-                    Nouvelle partie
+                <button class="restart-button" onclick="window.location.href='/rejouer'">
+                    Recommencer
                 </button>
             </div>
         </div>
 
         <div class="zone-questions" id="zone-questions">
 
-            <div class="grille-mini-container">
-                <h3>Grille de votre adversaire</h3>
-                <div class="grille-mini">
-                    {% for nom, image in personnages.items() %}
-                        <div class="carte-mini {% if nom not in restants_opponent %}eliminee{% endif %}">
-                            <img src="{{ image }}" alt="{{ nom }}">
+            <div class="boite-blanche-duo">
+    
+                <div class="duo-top-container">
+                    
+                    {% if session.get('secret_joueur') %}
+                    <div class="mon-perso-info">
+                        <h4 style="color: #740001; margin: 0 0 10px 0;">Votre Personnage</h4>
+                        <div style="width: 80px; margin: 0 auto;">
+                            <img src="{{ personnages[session['secret_joueur']] }}" 
+                                alt="{{ session['secret_joueur'] }}" 
+                                style="width: 100%; border-radius: 5px; border: 2px solid #740001; display: block;">
+                            <p style="font-size: 12px; margin-top: 5px; font-weight: bold;">
+                                {{ session['secret_joueur'] }}
+                            </p>
                         </div>
-                    {% endfor %}
+                        <p style="font-size: 10px; color: grey; margin-top: 5px;">(Secret)</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="adversaire-info">
+                        <h3 style="margin-top: 0;">Grille de votre adversaire</h3>
+                        <p style="font-size: 14px; margin-bottom: 10px;">Ce que l'ordinateur pense :</p>
+                        
+                        <div class="grille-mini">
+                            {% for nom, image in personnages.items() %}
+                                <div class="carte-mini {% if nom not in restants_opponent %}eliminee{% endif %}">
+                                    <img src="{{ image }}" alt="{{ nom }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -130,14 +164,68 @@
         </div>
     </div>
 
+    <div id="info-modal" class="modal-info">
+        <div class="modal-info-content">
+            <span class="close-modal">&times;</span>
+            <img id="modal-img" src="" alt="">
+            <h2 id="modal-title">Nom</h2>
+            <p id="modal-desc">Description...</p>
+        </div>
+    </div>
+
     <script>
-    document.querySelectorAll('.carte').forEach(card => {
-        card.addEventListener('click', async () => {
-            const nom = card.dataset.nom;
-            await fetch(`/toggle_elimine_duo/${encodeURIComponent(nom)}`, { method: 'POST' });
-            card.classList.toggle('eliminee');
+        // --- 1. Récupération des éléments de la fenêtre d'info (Modal) ---
+        const modal = document.getElementById("info-modal");
+        const modalImg = document.getElementById("modal-img");
+        const modalTitle = document.getElementById("modal-title");
+        const modalDesc = document.getElementById("modal-desc");
+        const closeBtn = document.querySelector(".close-modal");
+
+        // --- 2. Boucle sur toutes les cartes ---
+        document.querySelectorAll('.carte').forEach(card => {
+            
+            // A. GESTION DU CLIC GAUCHE (Ton code original pour éliminer)
+            card.addEventListener('click', async () => {
+                const nom = card.dataset.nom;
+                // On appelle le serveur pour changer l'état
+                await fetch(`/toggle_elimine_duo/${encodeURIComponent(nom)}`, { method: 'POST' });
+                // On grise/dégrise visuellement
+                card.classList.toggle('eliminee');
+            });
+
+            // B. GESTION DU CLIC DROIT (Nouveau : pour voir la description)
+            card.addEventListener('contextmenu', function(e) {
+                // On regarde si une description existe (donc si on est en mode Facile)
+                if (this.dataset.description) {
+                    e.preventDefault(); // Bloque le menu clic-droit normal
+
+                    // Remplir la fenêtre avec les infos de la carte
+                    modalTitle.textContent = this.dataset.nom;
+                    modalDesc.textContent = this.dataset.description;
+                    modalImg.src = this.dataset.image;
+
+                    // Afficher la fenêtre
+                    modal.style.display = "block";
+                }
+                // Si pas de description (Mode Difficile), le menu normal s'affiche
+            });
         });
-    });
+
+        // --- 3. Gestion de la fermeture de la fenêtre ---
+        
+        // Si on clique sur la croix (X)
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+        }
+
+        // Si on clique en dehors de la boite blanche (sur le fond noir)
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 
 </body>

@@ -71,3 +71,13 @@ J'ai dû changer le construction.py, perso.py et le perso.caract.py aussi du cou
 J'ai continué l'amélioration des pages jeu. Il faut encore que je change le style des questions déroulantes du select. J'ai pas réussi à fixer mon nav donc pour l'instant j'ai rajouté un bouton "retour à l'accueil". J'ai aussi mis un bouton "reset" si le joueur veut recommencer.
 
 Pour l'instant, le READ ME c'est un brouillon pour nous mais faudra le documenter quand on aura fini.
+
+
+26/12- Leena:
+J'ai mis en place la fenêtre de choix avant de lancer une partie 
+ajouter le choix rejouer ou retour à l'acceuil au lieu de juste rejouer (qui va renvoyer vers la page chosiir un joureur pour le mode duo)
+changer le bouton rejouer une fois qu'on a lancé la partie en abandonner la partie / recommencer
+Améliorer le design de la grille de l'adversaire pour voir le perso qu'on a choisi
+pour le mode facile, possibilité de voir la description d'un perso d'un clic droit 
+
+améliorations possibles : questions et caractéristiques...

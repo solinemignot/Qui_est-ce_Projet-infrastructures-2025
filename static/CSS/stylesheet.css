@@ -500,6 +500,67 @@ cursor:pointer;
             background-color: rgba(231, 76, 60, 0.8);
         }
 
+        /* =========================================
+        NOUVEAU STYLE DUO (Boites blanches)
+        ========================================= */
+
+        /* Style générique pour les conteneurs blancs (Haut et Bas) */
+        .boite-blanche-duo {
+            background-color: rgba(255, 255, 255, 0.9); /* Légèrement transparent ou blanc pur */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box; /* Important pour que le padding ne dépasse pas */
+        }
+
+        /* Conteneur flexible pour aligner "Mon Perso" et "Grille Adversaire" */
+        .duo-top-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap; /* Permet de passer à la ligne sur petit écran */
+        }
+
+        /* Colonne de gauche : Ton personnage */
+        .mon-perso-info {
+            flex: 0 0 auto; /* Ne grandit pas, reste compact */
+            text-align: center;
+            padding-right: 20px;
+            border-right: 1px solid #eee; /* Ligne de séparation */
+        }
+
+        /* Colonne de droite : Grille adverse */
+        .adversaire-info {
+            flex: 1; /* Prend tout l'espace restant */
+        }
+
+        /* Grille de l'adversaire : Force le format 6 colonnes x 4 lignes */
+        .grille-mini {
+            display: grid;               /* On utilise Grid, pas Flex */
+            grid-template-columns: repeat(6, 1fr); /* Exactement 6 colonnes */
+            grid-template-rows: repeat(4, auto);   /* 4 lignes (ou auto) */
+            gap: 6px;                    /* Espacement entre les petites cartes */
+            
+            /* Pour centrer la grille dans sa colonne de droite */
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        /* Si tu veux garder le style des cartes miniatures */
+        .carte-mini {
+            width: 30px;
+            height: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            background: #dcdcdc;
+            /* On s'assure qu'elles ne rétrécissent pas trop */
+            flex-shrink: 0; 
+        }
+
 /**********page fin**************/
 .page-fin body{
 text-align:center;
@@ -634,3 +695,52 @@ body.page-fin {
     text-align: center;
 }
 
+/* =========================================
+   STYLE DE LA FENÊTRE MODALE (POP-UP)
+   ========================================= */
+.modal-info {
+    display: none; /* Caché par défaut */
+    position: fixed; /* Reste fixe à l'écran */
+    z-index: 2000; /* Au-dessus de tout le reste */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Fond sombre transparent */
+    backdrop-filter: blur(3px);
+}
+
+.modal-info-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Centré verticalement et horizontalement */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 350px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.modal-info-content img {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 2px solid #740001;
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 5px;
+}
+
+.close-modal:hover {
+    color: black;
+}

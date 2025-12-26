@@ -121,7 +121,8 @@ def toggle_elimine(nom):
 def choisir_mode_duo():
     difficulty = request.args.get("difficulty", "easy")
     session["duo_difficulty"] = difficulty
-    return redirect('/jeu_duo')
+    # MODIFICATION : On va vers ta page existante 'choisir.html'
+    return redirect(url_for('page_choix'))
 
 
 def choosing_best_question(unused_questions, restants_opponent_objs):
@@ -149,11 +150,26 @@ def choosing_best_question(unused_questions, restants_opponent_objs):
 
     return best_question
 
+# Route pour afficher la page (GET) et traiter le choix (POST)
+@app.route('/choisir', methods=['GET', 'POST'], endpoint='page_choix')
+def page_choix():
+    # Si le joueur a validé le formulaire (POST)
+    if request.method == 'POST':
+        # On récupère le nom via le champ caché 'mon_perso' de ton fichier HTML
+        nom_choisi = request.form.get("mon_perso")
+        
+        if nom_choisi:
+            session["secret_joueur"] = nom_choisi
+            # On lance le jeu duo maintenant que le choix est fait
+            return redirect(url_for('jeu_duo'))
+    
+    # Si on arrive juste sur la page (GET), on l'affiche
+    return render_template('choisir.html', personnages=personnages)
 
 @app.route('/jeu_duo', methods=['GET', 'POST'])
 def jeu_duo():
     session["mode"] = "duo"
-
+    descriptions = {p.nom: p.description for p in liste_personnages}
     # L'ordinateur choisit un personnage à deviner (joueur doit deviner session["secret"])
     if "secret" not in session:
         secret_obj = random.choice(liste_personnages)
@@ -308,6 +324,7 @@ def jeu_duo():
     return render_template(
         "jeu_duo.html",
         personnages=personnages,
+        descriptions=descriptions,
         elimines=session["elimines_duo"],
         restants_opponent=session["restants_opponent"],
         reponse=reponse,
@@ -332,15 +349,27 @@ def toggle_elimine_duo(nom):
     return ("", 204)
 
 
+
 @app.route('/reset')
 def reset():
-    mode = session.get("mode", "solo")
     session.clear()
-    session["mode"] = mode
-    if mode == "solo":
+    return redirect(url_for('accueil'))
+
+# si le joueur veut rejouer après une partie
+@app.route('/rejouer')
+def rejouer():
+    # On sauvegarde le mode et la difficulté avant de tout effacer
+    mode_actuel = session.get("mode", "solo")
+    difficulte = session.get("duo_difficulty", "easy")
+    session.clear()
+    # On remet le mode dans la nouvelle session
+    session["mode"] = mode_actuel
+    if mode_actuel == "solo":
         return redirect(url_for('jeu'))
     else:
-        return redirect(url_for('jeu_duo'))
+        # En DUO, on remet la difficulté et on retourne au choix du perso
+        session["duo_difficulty"] = difficulte
+        return redirect(url_for('page_choix'))
 
 
 def filter_for_computer(restants_opponent_objs, question_obj, player_answer):
