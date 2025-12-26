@@ -75,9 +75,9 @@ Pour l'instant, le READ ME c'est un brouillon pour nous mais faudra le documente
 
 26/12- Leena:
 J'ai mis en place la fenêtre de choix avant de lancer une partie 
-ajouter le choix rejouer ou retour à l'acceuil au lieu de juste rejouer (qui va renvoyer vers la page chosiir un joureur pour le mode duo)
+ajouter le choix rejouer ou retour à l'acceuil au lieu de juste rejouer (qui va renvoyer vers la page chosir un joureur pour le mode duo)
 changer le bouton rejouer une fois qu'on a lancé la partie en abandonner la partie / recommencer
 Améliorer le design de la grille de l'adversaire pour voir le perso qu'on a choisi
-pour le mode facile, possibilité de voir la description d'un perso d'un clic droit 
+pour le mode  du jeu duo et le mode solo, possibilité de voir la description d'un perso d'un clic droit 
 
 améliorations possibles : questions et caractéristiques...
