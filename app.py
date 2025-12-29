@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import random
 import time
 
-from static.construction import liste_personnages, liste_questions
+from static.construction import liste_personnages, construire_liste_questions
 from static.perso_images import personnages
 
 app = Flask(__name__)
@@ -22,6 +22,8 @@ def accueil():
 @app.route('/jeu', methods=['GET', 'POST'])
 def jeu():
     session["mode"] = "solo"
+    difficulty = "easy"
+    liste_questions = construire_liste_questions(difficulty)
     descriptions = {p.nom: p.description for p in liste_personnages}
     if "elimines" not in session:
         session["elimines"] = []
@@ -125,8 +127,7 @@ def choisir_mode_duo():
     # MODIFICATION : On va vers ta page existante 'choisir.html'
     return redirect(url_for('page_choix'))
 
-
-def choosing_best_question(unused_questions, restants_opponent_objs):
+def choosing_best_question(unused_questions, restants_opponent_objs, liste_questions):
     nbre_restants = len(restants_opponent_objs)
     if nbre_restants == 0:
         return None
@@ -170,6 +171,8 @@ def page_choix():
 @app.route('/jeu_duo', methods=['GET', 'POST'])
 def jeu_duo():
     session["mode"] = "duo"
+    difficulty = session.get("duo_difficulty", "easy")
+    liste_questions = construire_liste_questions(difficulty)
     descriptions = {p.nom: p.description for p in liste_personnages}
     # L'ordinateur choisit un personnage à deviner (joueur doit deviner session["secret"])
     if "secret" not in session:
@@ -220,7 +223,7 @@ def jeu_duo():
                 if difficulty == "easy":
                     chosen = random.choice(unused_questions)
                 else:
-                    chosen = choosing_best_question(unused_questions, restants_opponent_objs)
+                    chosen = choosing_best_question(unused_questions, restants_opponent_objs, liste_questions)
 
                 session["opponent_question_idx"] = chosen
 

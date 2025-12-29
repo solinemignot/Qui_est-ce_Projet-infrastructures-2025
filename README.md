@@ -1,14 +1,33 @@
-# Structure du projet
+# Qui est-ce ? (Harry Potter)
 
-L’utilisateur a le choix entre le mode solo et le mode humain VS ordinateur. Il va falloir faire des HTML séparés pour les 2 types de jeu. Pour l’instant, ni l’humain ni l’ordinateur ne peuvent faire de suggestions en plein milieu du jeu.
+Projet réalisé dans le cadre du cours Infrastructures et Systèmes Logiciels par Téa TOSCAN DU PLANTIER, Ndoumbé BAYO, Tania ADMANE, Soline MIGNOT et Leena BOYINA.
+Il s’agit d’une adaptation du jeu "Qui est-ce" ? développée en Python / Flask avec une interface web interactive sur le thème de Harry Potter.
 
-**Mode humain contre ordi**  
-2 niveaux de difficulté :
-- Niveau 1 : L’ordi pose des questions random
-- Niveau 2 : On crée un lien entre les questions et les caractéristiques des persos pour que l’ordi pose des questions qui sont rattachées aux persos restants.
-- Niveau 3 : Si il nous reste du temps, on peut essayer de rendre l’ordinateur plus intelligent.
+## Présentation du projet
+L’utilisateur a le choix entre deux modes:
+
 
 **Mode solo**  
-- On garde la version initiale
-- Eliminer les questions petit à petit (si possible)
-- Cocher manuellement (si possible)
+Le joueur pose des questions pour deviner le personnage choisi aléatoirement par l’ordinateur.
+
+**Mode humain contre ordi**
+
+Le joueur affronte l’ordinateur.
+Chaque joueur choisit un personnage, pose des questions et élimine progressivement les personnages impossibles.
+
+*Deux niveaux de difficulté sont disponibles en mode duo* :
+- Facile : questions de l’ordinateur choisies aléatoirement
+- Difficile : questions optimisées pour réduire l’espace de recherche
+
+## Logique du jeu
+
+Chaque personnage est défini par un ensemble de caractéristiques booléennes (par exemple : cheveux clairs, porte des lunettes, est un eleve, etc.)
+
+Lorsqu’une question est posée, elle renvoie une réponse Oui / Non pour un personnage donné. Les personnages incompatibles sont éliminés. L’ensemble des personnages restants réduit petit à petit
+
+
+## Lancer le projet
+
+- Installer les dépendances
+- Run app.py
+- Accéder à l’application à partir du lien donné dans le terminal

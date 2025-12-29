@@ -21,6 +21,3 @@ class question():
             return True
         else:
             return False
-
-
-

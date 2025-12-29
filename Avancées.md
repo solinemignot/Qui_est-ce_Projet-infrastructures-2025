@@ -81,3 +81,9 @@ Améliorer le design de la grille de l'adversaire pour voir le perso qu'on a cho
 pour le mode  du jeu duo et le mode solo, possibilité de voir la description d'un perso d'un clic droit 
 
 améliorations possibles : questions et caractéristiques...
+
+29/12 avancées Ndoumbé
+
+J'ai modifié la structure interne du jeu pour que les questions changent en fonction du niveau de difficulté (facile, difficile) donc toutes les pages .py ont été modifié dont le app.py. J'ai restylisé la page choisir un perso et j'ai ajusté le nav. 
+
+J'ai rédigé le README qui explique ce qu'on a fait dans le projet et qu'elle est sa structure.

@@ -10,9 +10,13 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
             </a>
 			<ul>
-        		<li class="menu-items"><a href="{{ url_for('jeu') }}">Mode Solo</a></li>
-                <li class="menu-items"><a href="{{ url_for('jeu_duo') }}">Mode Duel</a></li>
-
+        		<li><a href="{{ url_for('jeu') }}">Mode Solo</a></li>
+                <li><a href="#">Mode Duel</a>
+                    <ul>
+                        <li><a href="{{ url_for('choisir_mode_duo', difficulty='easy') }}">Niveau Facile</a></li>
+                        <li><a href="{{ url_for('choisir_mode_duo', difficulty='hard') }}">Niveau difficile</a></li>
+                    </ul>
+                </li>
 			</ul>
     </nav>
     <header class="header_accueil">

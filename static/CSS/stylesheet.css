@@ -9,6 +9,7 @@
 
 body{
 	font-family: 'Montserrat', sans-serif;
+	text-align:center;
 }
 
 /********************page accueil*/
@@ -17,6 +18,7 @@ nav.liens_menu{
 	width:100%;
 	padding:10px;
 	position: fixed;
+	overflow:visible;
 	box-shadow: 0 0 20px 0 rgb(0 0 0 / 4%);
 	background-color:white;
 	top:0px;
@@ -28,22 +30,43 @@ nav.liens_menu ul{
 	margin-right: 25px;
 }
 
-nav.liens_menu ul li.menu-items{
+nav.liens_menu ul li{
 	display: inline-block;
 	line-height: 80px;
 	margin: 0 15px;
+	position:relative;
 }
 
-nav.liens_menu ul li.menu-items a{
+nav.liens_menu ul li ul{
+position:absolute;
+display:none;
+top:80px;
+left:-30px;;
+width:200px;
+background-color: white;
+z-index: 9999;
+}
+
+
+nav.liens_menu ul li a{
 	position: relative;
 	color: black;
 	font-size: 17px;
 	transition: 1s;
 }
 
-nav.liens_menu ul li.menu-items a:hover{
+nav.liens_menu ul li a:hover{
 	color:#C1AB86;
 	border-bottom: 1px solid;
+}
+
+nav.liens_menu ul li:hover > ul{
+	display: block;
+}
+
+nav.liens_menu ul li ul li{
+ line-height: normal;
+ padding: 12px 15px;
 }
 
 .logo{
@@ -199,6 +222,90 @@ margin-top:16px;
 color:#fff;
 padding: 10px 20px;
 }
+
+/***************page choisir un perso*****************/
+
+body.page_choisir {
+    background-color: #f6f6f6;
+    color: #222;
+    text-align: center ;
+                margin-top: 50px;
+}
+
+.page_choisir h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.page_choisir p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.grille-choix {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+    padding: 10px;
+}
+
+.carte-choix {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.carte-choix:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.carte-choix img {
+    width: 90px;
+    height: 120px;
+    border-radius: 6px;
+}
+
+.carte-choix p {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.carte-choix.selected {
+    border: 2px solid #8B0000;
+}
+
+.carte-choix.selected p {
+    font-weight: bold;
+    color: #8B0000;
+}
+
+#btn-choisir{
+display:inline-block;
+background-color: #333;
+text-decoration: none;
+font-size: 19px;
+border: none;
+border-radius:4px;
+margin-top:16px;
+margin-bottom:50px;
+color:#fff;
+padding: 10px 20px;
+cursor: pointer;
+}
+
+#btn-choisir:disabled{
+background-color: #bbb;
+    cursor: not-allowed;
+}
+}
+
+
 
 /***************page jeu*****************/
 

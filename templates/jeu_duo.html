@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Harry Potter</title>
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
@@ -89,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="zone-question-perso">
+            <div class="zone-question-perso" id="zone-question-perso">
                 <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
                 <p>Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
                 <p>Une fois que vous avez grisé les personnages concernés, cliquez sur "Tour de l’ordinateur" pour que l’ordinateur pose une question.</p>
@@ -119,7 +118,7 @@
 
                 <!--bouton pour lancer le tour de l'ordi apres avoir grisé -->
                 {% if awaiting_computer %}
-                    <form method="POST" action="/jeu_duo#zone-questions" style="margin-top: 15px;">
+                    <form method="POST" action="/jeu_duo#zone-question-perso" style="margin-top: 15px;">
                         <button type="submit" name="next_turn" value="1" class="restart-button">
                             Tour de l’ordinateur
                         </button>
