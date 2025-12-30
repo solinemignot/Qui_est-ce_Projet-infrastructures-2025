@@ -2,6 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
     <title>Qui est-ce ?</title>
 </head>
 <body>
@@ -9,7 +10,16 @@
 			<a href="{{ url_for('accueil') }}" class="logo">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
             </a>
-			<ul>
+			<ul style ="display : flex; align-items : center;">
+                <li style="margin-left: auto; display: flex; align-items: center;">
+                    <span id="modeLabel" style="margin-right: 10px; font-size: 13px; color : white;">
+                        Auto
+                    </span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoToggle" checked onchange="updateModeLabel()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </li>
         		<li><a href="{{ url_for('jeu') }}">Mode Solo</a></li>
                 <li><a href="#">Mode Duel</a>
                     <ul>
@@ -29,7 +39,14 @@
     <section class="main_section">
         <h1>Bienvenue à Poudlard, jeune sorcier !</h1>
         <!-- <img src="https://media1.tenor.com/m/YEPii0Pgd-kAAAAC/sorting-hat.gif" alt="Choixpeau magique" style="width:60%; max-width:550px; margin-top:60px; margin-bottom:35px">-->
-        <p>Un personnage du monde magique s’est caché derrière une carte mystère. À toi d’enquêter afin de dévoiler son identité. À chaque tour, tu peux poser une question pour réduire la liste des personnages possibles. Lorsque tu te sens prêt, tente ta chance et devine le personnage caché. Cliquez sur une carte pour la griser.</p>
+        <p>Un personnage du monde magique s’est caché derrière une carte mystère. À toi d’enquêter afin de dévoiler son identité. À chaque tour, tu peux poser une question pour réduire la liste des personnages possibles. Lorsque tu te sens prêt, tente ta chance et devine le personnage caché.</p>
+        <p style="font-size: 14px; color: #888; margin-top: 10px; margin-bottom: 30px;  font-style: italic;">
+            🔮 Durant ton enquête, laisse la magie éliminer automatiquement les suspects après chaque indice, ou prend le contrôle et décide toi-même qui écarter de ton investigation ! Dans ce cas, il faudra cliquer sur les cartes pour éliminer les sorciers innocentés.
+        </p>
+        <p style="font-size: 25px; color : #8B0000; font-weight: bold; "> 
+            Choisis ton mode de jeu et lance-toi dans cette aventure ensorcelante !
+        </p>
+
     </section>
         <div class="card-container">
         <div class="card-jeu">
@@ -37,7 +54,18 @@
             <div class="card-content">
                 <h3>Mode Solo</h3>
                 <p>Affronte le mystère seul. Analyse les indices et trouve le personnage avec le moins de questions possible.</p>
-                <button class="btn" onclick="window.location.href='/jeu'">Commencer la partie</button>
+                <div class = "option-grisage" style="margin-top: 15px ;">
+                    <h4 style ="font-size: 12px; margin-top: 70px;"> Choisis ton style d'enquête :</h4>
+                    <label style="display: block; font-size: 13px;">
+                        <input type="radio" name="grisage" value="true" checked>
+                        Automatique
+                    </label>
+                    <label style="display: block;  font-size: 13px; margin-bottom: 30px;">
+                        <input type="radio" name="grisage" value="false" checked>
+                        Manuel 
+                    </label>
+                    <button class="btn" onclick="window.location.href='/jeu'">Commencer la partie</button>
+                 </div>
             </div>
         </div>
         <div class="card-jeu">
@@ -45,6 +73,17 @@
             <div class="card-content">
                 <h3>Mode Duel</h3>
                 <p>Un véritable duel de sorciers t’attend ! Affronte ton adversaire et tente de découvrir son personnage. Si il découvre le tien avant que tu ne découvres le sien, la partie est perdue.</p>
+                <div class = "option-grisage" style="margin: 15px 0;">
+                    <h4 style ="font-size: 12px; "> Choisis ton style d'enquête :</h4>
+                    <label style="display: block; font-size: 13px;">
+                        <input type="radio" name="grisage" value="true" checked>
+                        Automatique
+                    </label>
+                    <label style="display: block;  font-size: 13px;">
+                        <input type="radio" name="grisage" value="false" checked>
+                        Manuel 
+                    </label>
+                 </div>
                 <button class="btn" onclick="window.location.href='/choisir_mode_duo?difficulty=easy'">Niveau Facile</button>
                 <button class="btn" onclick="window.location.href='/choisir_mode_duo?difficulty=hard'">Niveau Difficile</button>
             </div>

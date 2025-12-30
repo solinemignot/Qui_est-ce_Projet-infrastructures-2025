@@ -4,6 +4,7 @@ import time
 
 from static.construction import liste_personnages, construire_liste_questions
 from static.perso_images import personnages
+from static.question_groups import get_related_questions
 
 app = Flask(__name__)
 app.secret_key = "secret123"
@@ -24,6 +25,13 @@ def jeu():
     session["mode"] = "solo"
     difficulty = "easy"
     liste_questions = construire_liste_questions(difficulty)
+
+    #Récupérer choix de grisage
+    if request.args.get("auto_grey") :
+        session["auto_grey_solo"] = request.args.get("auto_grey") == "true"
+    elif "auto_grey_solo" not in session:
+        session["auto_grey_solo"] = True  # valeur par défaut
+
     descriptions = {p.nom: p.description for p in liste_personnages}
     if "elimines" not in session:
         session["elimines"] = []
@@ -90,6 +98,19 @@ def jeu():
             reponse_oui = question_obj.poser_question(secret_obj)
             reponse = "Oui" if reponse_oui else "Non"
 
+            # griser les questions liées
+            related = get_related_questions(idx, got_yes=reponse_oui)
+            for r_idx in related :
+                if r_idx not in session["asked_questions_solo"]:
+                    session["asked_questions_solo"].append(r_idx)
+            
+            # Si grisage auto, griser les questions liées
+            if session.get("auto_grey_solo", True):
+                elimines = set(session.get("elimines", []))
+                for perso in liste_personnages:
+                    if question_obj.poser_question(perso) != reponse_oui:
+                        elimines.add(perso.nom)
+                session["elimines"] = list(elimines)
     return render_template(
         "jeu.html",
         personnages=personnages,
@@ -174,6 +195,11 @@ def jeu_duo():
     difficulty = session.get("duo_difficulty", "easy")
     liste_questions = construire_liste_questions(difficulty)
     descriptions = {p.nom: p.description for p in liste_personnages}
+
+    if request.args.get("auto_grey") :
+        session["auto_grey_duo"] = request.args.get("auto_grey") == "true"
+    elif "auto_grey_duo" not in session:
+        session["auto_grey_duo"] = True  # valeur par défaut
     # L'ordinateur choisit un personnage à deviner (joueur doit deviner session["secret"])
     if "secret" not in session:
         secret_obj = random.choice(liste_personnages)
@@ -321,6 +347,20 @@ def jeu_duo():
             reponse_oui = question_obj.poser_question(secret_obj)
             reponse = "Oui" if reponse_oui else "Non"
 
+            # griser les questions liées
+            related = get_related_questions(idx, got_yes=reponse_oui)
+            for r_idx in related :
+                if r_idx not in session["asked_questions_duo"]:
+                    session["asked_questions_duo"].append(r_idx)
+
+            # Si grisage auto, griser les personnages
+            if session.get("auto_grey_duo", True):
+                elimines = set(session.get("elimines_duo", []))
+                for perso in liste_personnages:
+                    if question_obj.poser_question(perso) != reponse_oui:
+                        elimines.add(perso.nom)
+                session["elimines_duo"] = list(elimines)
+
             # attendre que le joueur grise avant de lancer l'ordi
             session["awaiting_computer"] = True
             session["opponent_question_idx"] = None
@@ -384,4 +424,4 @@ def filter_for_computer(restants_opponent_objs, question_obj, player_answer):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host ='0.0.0.0')
+    app.run(debug=True, host ='0.0.0.0', port = 5001)

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Harry Potter - Mode Solo</title>
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
+    <script src="{{ url_for('static', filename='script.js') }}" ></script>
 
     <style>
         /* Timer en haut à droite */
@@ -85,10 +86,10 @@
 
         <div class="zone-questions" id="zone-questions">
             <div class="zone-question-perso">
-                <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
-                <p>Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
+                <p>Pose des questions pour tenter de découvrir le personnage caché.</p>
+                <p>Après chaque réponse, clique sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
 
-                <h2>Posez une question</h2>
+                <h2>Pose une question</h2>
                 <form method="POST" action="/jeu#zone-questions">
                     <select name="question" class="question" required style="width: 200px;">
                         <option value="">Choisir une question</option>
@@ -103,6 +104,10 @@
                     <button type="submit" style="width: 200px;">Poser la question</button>
                 </form>
 
+                <p style="font-size: 14px; color: #888; margin-top: 15px; font-style: italic;">
+                    💡 Petit indice : Clique droit sur chaque sorcier pour en apprendre un peu plus
+                </p>
+
                 {% if reponse %}
                     <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
                         {{ reponse }}
@@ -111,13 +116,13 @@
             </div>
 
             <div class="zone-guess">
-                <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
+                <p> Tu as trouvé ? Sois sûr de toi ! Tu n’as droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
 
-                <h2>Révélez le coupable</h2>
+                <h2>Révèle le coupable</h2>
 
                 <form method="POST" action="/jeu">
                     <select name="guess" class="guess" required style="width: 200px;">
-                        <option value="">Choisissez un personnage</option>
+                        <option value="">Choisis un personnage</option>
                         {% for nom in personnages.keys() %}
                             {% if nom not in elimines %}
                                 <option value="{{ nom }}">{{ nom }}</option>
@@ -141,14 +146,10 @@
     </div>
 
     <script>
-        // --- 1. ÉLÉMENTS DE LA FENÊTRE ---
-        const modal = document.getElementById("info-modal");
-        const modalImg = document.getElementById("modal-img");
-        const modalTitle = document.getElementById("modal-title");
-        const modalDesc = document.getElementById("modal-desc");
-        const closeBtn = document.querySelector(".close-modal");
+        // INITIALISER LA MODAL
+        const { modal, modalImg, modalTitle, modalDesc } = initModal();
 
-        // --- 2. GESTION DES CARTES ---
+        //  GESTION DES CARTES
         document.querySelectorAll('.carte').forEach(card => {
             
             // A. CLIC GAUCHE : ÉLIMINER (Griser)
@@ -172,14 +173,6 @@
                 modal.style.display = "block";
             });
         });
-
-        // --- 3. FERMETURE DE LA FENÊTRE ---
-        if (closeBtn) {
-            closeBtn.onclick = function() { modal.style.display = "none"; }
-        }
-        window.onclick = function(event) {
-            if (event.target == modal) { modal.style.display = "none"; }
-        }
 
         // --- 4. LE TIMER ---
         const startTime = {{ start_time|default(0)|int }};

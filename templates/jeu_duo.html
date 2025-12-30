@@ -3,6 +3,7 @@
 <head>
     <title>Harry Potter</title>
     <link rel="stylesheet" type="text/css" href="../static/CSS/stylesheet.css">
+    <script src="{{ url_for('static', filename='script.js') }}" ></script>
 </head>
 
 <body class="page-jeu-duo">
@@ -89,12 +90,11 @@
             </div>
 
             <div class="zone-question-perso" id="zone-question-perso">
-                <p>Posez des questions pour tenter de découvrir le personnage caché.</p>
-                <p>Après chaque réponse, cliquez sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
-                <p>Une fois que vous avez grisé les personnages concernés, cliquez sur "Tour de l’ordinateur" pour que l’ordinateur pose une question.</p>
+                <p>Pose des questions pour tenter de découvrir le personnage caché.</p>
+                <p>Après chaque réponse, clique sur les personnages concernés pour les griser et ainsi les éliminer de la liste des suspects.</p>
+                <p>Une fois que tu as grisé les personnages concernés, clique sur "Tour de l’ordinateur" pour que l’ordinateur pose une question.</p>
 
-                <h2>Posez une question :</h2>
-
+                <h2>Pose une question :</h2>
                 <form method="POST" action="/jeu_duo#zone-questions">
                     <select name="question" required style="width:200px;"
                             {% if awaiting_computer %}disabled{% endif %}>
@@ -109,6 +109,15 @@
                     <br><br>
                     <button type="submit" {% if awaiting_computer %}disabled{% endif %}>Poser la question</button>
                 </form>
+                {% if session.get('duo_difficulty') == 'easy' %}
+                    <p style="font-size: 14px; color: #888; margin-top: 15px; font-style: italic;">
+                        💡 Petit indice : clique droit sur chaque sorcier pour en apprendre un peu plus !
+                    </p>
+                {% else %}
+                    <p style="font-size: 14px; color: #888; margin-top: 15px; font-style: italic;">
+                        🔍 Mode difficile : Aucune description disponible, fais confiance à ta mémoire ! 
+                    </p>
+                {% endif %}
 
                 {% if reponse %}
                     <div class="simple-answer {{ 'yes' if reponse == 'Oui' else 'no' }}">
@@ -128,8 +137,8 @@
             </div>
 
             <div class="zone-guess">
-                <p>Vous avez trouvé ? Soyez sûr de vous ! Vous n’avez droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
-                <h2>Révélez le coupable</h2>
+                <p>Tu as trouvé ? Sois sûr de toi ! Tu n’as droit qu’à une seule tentative : une mauvaise réponse et la partie est perdue.</p>
+                <h2>Révèle le coupable</h2>
 
                 <form method="POST" action="/jeu_duo">
                     <select name="guess" required style="width:200px;"
@@ -173,58 +182,41 @@
     </div>
 
     <script>
-        // --- 1. Récupération des éléments de la fenêtre d'info (Modal) ---
-        const modal = document.getElementById("info-modal");
-        const modalImg = document.getElementById("modal-img");
-        const modalTitle = document.getElementById("modal-title");
-        const modalDesc = document.getElementById("modal-desc");
-        const closeBtn = document.querySelector(".close-modal");
+        window.addEventListener('DOMContentLoaded', function() {
+            // INITIALISER LA MODAL
+            const { modal, modalImg, modalTitle, modalDesc } = initModal();
 
-        // --- 2. Boucle sur toutes les cartes ---
-        document.querySelectorAll('.carte').forEach(card => {
+            // --- 2. Boucle sur toutes les cartes ---
+            document.querySelectorAll('.carte').forEach(card => {
             
-            // A. GESTION DU CLIC GAUCHE (Ton code original pour éliminer)
-            card.addEventListener('click', async () => {
-                const nom = card.dataset.nom;
-                // On appelle le serveur pour changer l'état
-                await fetch(`/toggle_elimine_duo/${encodeURIComponent(nom)}`, { method: 'POST' });
-                // On grise/dégrise visuellement
-                card.classList.toggle('eliminee');
-            });
+                // A. GESTION DU CLIC GAUCHE (Ton code original pour éliminer)
+                card.addEventListener('click', async () => {
+                    const nom = card.dataset.nom;
+                    // On appelle le serveur pour changer l'état
+                    await fetch(`/toggle_elimine_duo/${encodeURIComponent(nom)}`, { method: 'POST' });
+                    // On grise/dégrise visuellement
+                    card.classList.toggle('eliminee');
+                });
 
-            // B. GESTION DU CLIC DROIT (Nouveau : pour voir la description)
-            card.addEventListener('contextmenu', function(e) {
-                // On regarde si une description existe (donc si on est en mode Facile)
-                if (this.dataset.description) {
-                    e.preventDefault(); // Bloque le menu clic-droit normal
+                // B. GESTION DU CLIC DROIT (Nouveau : pour voir la description)
+                card.addEventListener('contextmenu', function(e) {
+                    // On regarde si une description existe (donc si on est en mode Facile)
+                    if (this.dataset.description) {
+                        e.preventDefault(); // Bloque le menu clic-droit normal
 
-                    // Remplir la fenêtre avec les infos de la carte
-                    modalTitle.textContent = this.dataset.nom;
-                    modalDesc.textContent = this.dataset.description;
-                    modalImg.src = this.dataset.image;
+                        // Remplir la fenêtre avec les infos de la carte
+                        modalTitle.textContent = this.dataset.nom;
+                        modalDesc.textContent = this.dataset.description;
+                        modalImg.src = this.dataset.image;
 
-                    // Afficher la fenêtre
-                    modal.style.display = "block";
-                }
-                // Si pas de description (Mode Difficile), le menu normal s'affiche
+                        // Afficher la fenêtre
+                        modal.style.display = "block";
+                    }
+                    // Si pas de description (Mode Difficile), le menu normal s'affiche
+                });
             });
         });
 
-        // --- 3. Gestion de la fermeture de la fenêtre ---
-        
-        // Si on clique sur la croix (X)
-        if (closeBtn) {
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-            }
-        }
-
-        // Si on clique en dehors de la boite blanche (sur le fond noir)
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
     </script>
 
 </body>
