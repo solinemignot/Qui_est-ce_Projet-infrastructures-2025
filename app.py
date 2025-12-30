@@ -145,7 +145,10 @@ def toggle_elimine(nom):
 def choisir_mode_duo():
     difficulty = request.args.get("difficulty", "easy")
     session["duo_difficulty"] = difficulty
-    # MODIFICATION : On va vers ta page existante 'choisir.html'
+    if request.args.get("auto_grey"):
+        session["auto_grey_duo"] = request.args.get("auto_grey") == "true"
+    elif "auto_grey_duo" not in session:
+        session["auto_grey_duo"] = True  # valeur par défaut
     return redirect(url_for('page_choix'))
 
 def choosing_best_question(unused_questions, restants_opponent_objs, liste_questions):

@@ -27,7 +27,7 @@ function startSolo() {
 
 // Lancer le jeu duo depuis les radio buttons des cartes
 function startDuo(difficulty) {
-    const radioChecked = document.querySelector('input[name="grisage"]:checked');
+    const radioChecked = document.querySelector('input[name="grisage_duo"]:checked');
     if (radioChecked) {
         window.location.href = '/choisir_mode_duo?difficulty=' + difficulty + '&auto_grey=' + radioChecked.value;
     }

@@ -11,21 +11,12 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="Harry Potter">
             </a>
 			<ul style ="display : flex; align-items : center;">
-                <li style="margin-left: auto; display: flex; align-items: center;">
-                    <span id="modeLabel" style="margin-right: 10px; font-size: 13px; color : white;">
-                        Auto
-                    </span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="autoToggle" checked onchange="updateModeLabel()">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </li>
         		<li><a href="{{ url_for('jeu') }}">Mode Solo</a></li>
                 <li><a href="#">Mode Duel</a>
-                    <ul>
-                        <li><a href="{{ url_for('choisir_mode_duo', difficulty='easy') }}">Niveau Facile</a></li>
-                        <li><a href="{{ url_for('choisir_mode_duo', difficulty='hard') }}">Niveau difficile</a></li>
-                    </ul>
+                <ul>
+                    <li><a href="{{ url_for('choisir_mode_duo', difficulty='easy') }}">Niveau Facile</a></li>
+                    <li><a href="{{ url_for('choisir_mode_duo', difficulty='hard') }}">Niveau difficile</a></li>
+                </ul>
                 </li>
 			</ul>
     </nav>
@@ -61,10 +52,10 @@
                         Automatique
                     </label>
                     <label style="display: block;  font-size: 13px; margin-bottom: 30px;">
-                        <input type="radio" name="grisage" value="false" checked>
+                        <input type="radio" name="grisage" value="false" >
                         Manuel 
                     </label>
-                    <button class="btn" onclick="window.location.href='/jeu'">Commencer la partie</button>
+                    <button class="btn" onclick="startSolo()">Commencer la partie</button>
                  </div>
             </div>
         </div>
@@ -76,16 +67,16 @@
                 <div class = "option-grisage" style="margin: 15px 0;">
                     <h4 style ="font-size: 12px; "> Choisis ton style d'enquête :</h4>
                     <label style="display: block; font-size: 13px;">
-                        <input type="radio" name="grisage" value="true" checked>
+                        <input type="radio" name="grisage_duo" value="true" checked>
                         Automatique
                     </label>
                     <label style="display: block;  font-size: 13px;">
-                        <input type="radio" name="grisage" value="false" checked>
+                        <input type="radio" name="grisage_duo" value="false">
                         Manuel 
                     </label>
                  </div>
-                <button class="btn" onclick="window.location.href='/choisir_mode_duo?difficulty=easy'">Niveau Facile</button>
-                <button class="btn" onclick="window.location.href='/choisir_mode_duo?difficulty=hard'">Niveau Difficile</button>
+                <button class="btn" onclick="startDuo('easy')">Niveau Facile</button>
+                <button class="btn" onclick="startDuo('hard')">Niveau Difficile</button>
             </div>
         </div>
     </div>
