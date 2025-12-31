@@ -183,36 +183,30 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', function() {
-            // INITIALISER LA MODAL
+            // initialiser la modal
             const { modal, modalImg, modalTitle, modalDesc } = initModal();
 
-            // --- 2. Boucle sur toutes les cartes ---
+            // boucle sur toutes les cartes
             document.querySelectorAll('.carte').forEach(card => {
             
-                // A. GESTION DU CLIC GAUCHE (Ton code original pour éliminer)
+
                 card.addEventListener('click', async () => {
                     const nom = card.dataset.nom;
-                    // On appelle le serveur pour changer l'état
                     await fetch(`/toggle_elimine_duo/${encodeURIComponent(nom)}`, { method: 'POST' });
-                    // On grise/dégrise visuellement
                     card.classList.toggle('eliminee');
                 });
 
-                // B. GESTION DU CLIC DROIT (Nouveau : pour voir la description)
-                card.addEventListener('contextmenu', function(e) {
-                    // On regarde si une description existe (donc si on est en mode Facile)
-                    if (this.dataset.description) {
-                        e.preventDefault(); // Bloque le menu clic-droit normal
 
-                        // Remplir la fenêtre avec les infos de la carte
+                card.addEventListener('contextmenu', function(e) {
+                    if (this.dataset.description) {
+                        e.preventDefault(); // bloque le menu clic-droit normal
                         modalTitle.textContent = this.dataset.nom;
                         modalDesc.textContent = this.dataset.description;
                         modalImg.src = this.dataset.image;
 
-                        // Afficher la fenêtre
                         modal.style.display = "block";
                     }
-                    // Si pas de description (Mode Difficile), le menu normal s'affiche
+                    // si pas de description (Mode Difficile), le menu normal s'affiche
                 });
             });
         });

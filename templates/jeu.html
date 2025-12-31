@@ -7,7 +7,6 @@
     <script src="{{ url_for('static', filename='script.js') }}" ></script>
 
     <style>
-        /* Timer en haut à droite */
         .timer-box {
             position: fixed;
             top: 18px;
@@ -146,35 +145,29 @@
     </div>
 
     <script>
-        // INITIALISER LA MODAL
+        // initialiser la modal
         const { modal, modalImg, modalTitle, modalDesc } = initModal();
 
-        //  GESTION DES CARTES
+        //  boucle sur les cartes
         document.querySelectorAll('.carte').forEach(card => {
             
-            // A. CLIC GAUCHE : ÉLIMINER (Griser)
             card.addEventListener('click', async () => {
                 const nom = card.dataset.nom;
-                // Note : URL Solo '/toggle_elimine'
                 await fetch(`/toggle_elimine/${encodeURIComponent(nom)}`, { method: 'POST' });
                 card.classList.toggle('eliminee');
             });
 
-            // B. CLIC DROIT : VOIR DESCRIPTION
             card.addEventListener('contextmenu', function(e) {
-                e.preventDefault(); // Bloque le menu normal du navigateur
+                e.preventDefault(); // bloque le menu normal du navigateur
 
-                // Remplir la fenêtre
                 modalTitle.textContent = this.dataset.nom;
                 modalDesc.textContent = this.dataset.description;
                 modalImg.src = this.dataset.image;
-
-                // Afficher la fenêtre
                 modal.style.display = "block";
             });
         });
 
-        // --- 4. LE TIMER ---
+        // le timer
         const startTime = {{ start_time|default(0)|int }};
         const timerEl = document.getElementById("timer");
 

@@ -179,17 +179,15 @@ def choosing_best_question(unused_questions, restants_opponent_objs, liste_quest
 # Route pour afficher la page (GET) et traiter le choix (POST)
 @app.route('/choisir', methods=['GET', 'POST'], endpoint='page_choix')
 def page_choix():
-    # Si le joueur a validé le formulaire (POST)
+
     if request.method == 'POST':
-        # On récupère le nom via le champ caché 'mon_perso' de ton fichier HTML
+        # On récupère le nom via le champ caché 'mon_perso' du fichier HTML
         nom_choisi = request.form.get("mon_perso")
         
         if nom_choisi:
             session["secret_joueur"] = nom_choisi
-            # On lance le jeu duo maintenant que le choix est fait
             return redirect(url_for('jeu_duo'))
     
-    # Si on arrive juste sur la page (GET), on l'affiche
     return render_template('choisir.html', personnages=personnages)
 
 @app.route('/jeu_duo', methods=['GET', 'POST'])
